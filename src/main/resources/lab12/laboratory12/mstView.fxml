@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="696.0" prefWidth="1126.0" style="-fx-background-color: #4acabb;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.mstController">
+   <children>
+      <Pane layoutY="63.0" prefHeight="637.0" prefWidth="1126.0" style="-fx-background-color: #a5c8ca;">
+         <children>
+            <Pane fx:id="paneGraphLeft" layoutX="15.0" layoutY="99.0" prefHeight="334.0" prefWidth="405.0" style="-fx-background-color: #a5c8ca;" />
+            <Button layoutX="450.0" layoutY="14.0" mnemonicParsing="false" onAction="#randomizeOnAction" prefHeight="56.0" prefWidth="226.0" style="-fx-background-color: #dedede;" text="Randomize">
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font></Button>
+            <Text fill="#cd0000" layoutX="165.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Graph Type">
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+            </Text>
+            <Text fill="#cd0000" layoutX="830.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MST Algorithm">
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+            </Text>
+            <RadioButton fx:id="rb_adjMatrix" layoutX="133.0" layoutY="53.0" mnemonicParsing="false" onAction="#adjacencyMatrixOnAction" text="Adjacency Matrix" textFill="#1400cc">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="rb_adjList" layoutX="133.0" layoutY="87.0" mnemonicParsing="false" onAction="#adjacencyListOnAction" text="Adjacency List" textFill="#1400cc">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="rb_linkedList" layoutX="133.0" layoutY="121.0" mnemonicParsing="false" onAction="#linkedListOnAction" text="Linked List" textFill="#1400cc">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="rb_kruskal" layoutX="850.0" layoutY="82.0" mnemonicParsing="false" onAction="#kruskalOnAction" text="Kruskal" textFill="#1400cc">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="rb_prim" layoutX="850.0" layoutY="120.0" mnemonicParsing="false" onAction="#primOnAction" text="Prim" textFill="#1400cc">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </RadioButton>
+            <Pane fx:id="paneGraphRight" layoutX="627.0" layoutY="272.0" prefHeight="334.0" prefWidth="405.0" style="-fx-background-color: #a5c8ca;" />
+         </children></Pane>
+      <Pane prefHeight="63.0" prefWidth="1126.0" style="-fx-background-color: #2b5166;">
+         <children>
+            <Text fill="#f2f2f2" layoutX="199.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Minimum Spanning Tree (Krustal and Prim)">
+               <font>
+                  <Font name="Berlin Sans FB" size="40.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
