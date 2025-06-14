@@ -214,19 +214,22 @@ public class AdjacencyListGraph implements Graph {
     }
 
     private int adjacentVertexNotVisited(int index) throws ListException {
-        Object vertexData = vertexList[index].data;
-        for (int i = 0; i < counter; i++) {
-            // Verificar primero si la lista de aristas está vacía
-            if (vertexList[i].edgesList.isEmpty()) {
-                continue; // Saltar si está vacía
-            }
-            // Luego verificar si contiene el vértice y si no ha sido visitado
-            if (vertexList[i].edgesList.contains(new EdgeWeight(vertexData, null))
-                    && !vertexList[i].isVisited()) {
-                return i;
+        Vertex current = vertexList[index];
+
+        if (current.edgesList.isEmpty())
+            return -1;
+
+        // Recorre la lista de adyacencia del vértice actual
+        for (int i = 1; i <= current.edgesList.size(); i++) {
+            EdgeWeight edge = (EdgeWeight) current.edgesList.getNode(i).data;
+            int pos = indexOf(edge.getEdge()); // buscamos índice del destino
+
+            if (!vertexList[pos].isVisited()) {
+                return pos;
             }
         }
-        return -1;
+
+        return -1; // no hay vecinos no visitados
     }
 
     public Vertex getVertexByIndex(int i){
@@ -321,134 +324,5 @@ public class AdjacencyListGraph implements Graph {
                 }
             }
         }
-    }
-/// ////////////////////////Metodos Prim y Kruskal//////////////////
-    private class Edge implements Comparable<Edge> {
-        int src;
-        int dest;
-        int weight;
-
-        public Edge(int src, int dest, int weight) {
-            this.src = src;
-            this.dest = dest;
-            this.weight = weight;
-        }
-
-        @Override
-        public int compareTo(Edge other) {
-            return Integer.compare(this.weight, other.weight);
-        }
-    }
-
-    // Clase auxiliar para Kruskal: estructura Union-Find (Disjoint Set Union - DSU)
-    private class UnionFind {
-        private int[] parent, rank;
-
-        public UnionFind(int size) {
-            parent = new int[size];
-            rank = new int[size];
-            for (int i = 0; i < size; i++) parent[i] = i;
-        }
-
-        public int find(int u) {
-            if (parent[u] != u) parent[u] = find(parent[u]);
-            return parent[u];
-        }
-
-        public void union(int u, int v) {
-            int rootU = find(u);
-            int rootV = find(v);
-            if (rootU != rootV) {
-                if (rank[rootU] < rank[rootV]) parent[rootU] = rootV;
-                else if (rank[rootU] > rank[rootV]) parent[rootV] = rootU;
-                else {
-                    parent[rootV] = rootU;
-                    rank[rootU]++;
-                }
-            }
-        }
-    }
-
-    // Método Prim: retorna el costo total del árbol de expansión mínima (MST)
-    public int prim(int startVertex) throws GraphException, ListException {
-        if (startVertex < 0 || startVertex >= counter)
-            throw new GraphException("Invalid start vertex");
-
-        boolean[] inMST = new boolean[counter];
-        int[] key = new int[counter];
-        for (int i = 0; i < counter; i++) {
-            key[i] = Integer.MAX_VALUE;
-        }
-        key[startVertex] = 0;
-
-        for (int count = 0; count < counter - 1; count++) {
-            int u = minKeyVertex(key, inMST);
-            inMST[u] = true;
-
-            SinglyLinkedList edges = vertexList[u].edgesList;
-            for (int i = 1; i <= edges.size(); i++) {
-                EdgeWeight edge = (EdgeWeight) edges.getNode(i).data;
-                int v = indexOf(edge.getEdge());
-                int weight = (int) edge.getWeight();
-
-                if (!inMST[v] && weight < key[v]) {
-                    key[v] = weight;
-                }
-            }
-        }
-
-        int totalWeight = 0;
-        for (int w : key) {
-            if (w != Integer.MAX_VALUE) totalWeight += w;
-        }
-        return totalWeight;
-    }
-
-    // Método auxiliar para Prim: encuentra el vértice con el valor mínimo de key que no está en MST
-    private int minKeyVertex(int[] key, boolean[] inMST) {
-        int min = Integer.MAX_VALUE, minIndex = -1;
-        for (int v = 0; v < counter; v++) {
-            if (!inMST[v] && key[v] < min) {
-                min = key[v];
-                minIndex = v;
-            }
-        }
-        return minIndex;
-    }
-
-    // Método Kruskal: retorna una lista de aristas que forman el MST
-    public List<Edge> kruskal() throws GraphException, ListException {
-        List<Edge> edges = new ArrayList<>();
-
-        // Obtener todas las aristas del grafo (sin duplicados, ya que el grafo es no dirigido)
-        for (int i = 0; i < counter; i++) {
-            SinglyLinkedList edgesList = vertexList[i].edgesList;
-            for (int j = 1; j <= edgesList.size(); j++) {
-                EdgeWeight ew = (EdgeWeight) edgesList.getNode(j).data;
-                int dest = indexOf(ew.getEdge());
-                int weight = (int) ew.getWeight();
-
-                if (i < dest) { // Evitar duplicados porque es no dirigido
-                    edges.add(new Edge(i, dest, weight));
-                }
-            }
-        }
-
-        Collections.sort(edges);
-
-        UnionFind uf = new UnionFind(counter);
-        List<Edge> mst = new ArrayList<>();
-
-        for (Edge edge : edges) {
-            int rootSrc = uf.find(edge.src);
-            int rootDest = uf.find(edge.dest);
-
-            if (rootSrc != rootDest) {
-                mst.add(edge);
-                uf.union(rootSrc, rootDest);
-            }
-        }
-
-        return mst;
     }
 }

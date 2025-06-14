@@ -158,8 +158,8 @@ public class mstController {
 
     ////////////////////////////////////////////////////////////
 
-   // @javafx.fxml.FXML
-//    public void kruskalOnAction(ActionEvent actionEvent) throws GraphException, ListException {
+   @javafx.fxml.FXML
+    public void kruskalOnAction(ActionEvent actionEvent) throws GraphException, ListException {
 //        if (rb_adjMatrix.isSelected()) {
 //            AdjacencyMatrixGraph mst = GraphAlgorithms.kruskal(graphAMG);
 //            AdjMatrixGraphVisualization visualization = new AdjMatrixGraphVisualization(mst);
@@ -179,10 +179,10 @@ public class mstController {
 //            paneGraphRight.getChildren().clear();
 //            paneGraphRight.getChildren().add(visualization);
 //        }
-//    }
+    }
 //
-//    @javafx.fxml.FXML
-//    public void primOnAction(ActionEvent actionEvent) throws GraphException, ListException {
+    @javafx.fxml.FXML
+    public void primOnAction(ActionEvent actionEvent) throws GraphException, ListException {
 //        if (rb_adjMatrix.isSelected()) {
 //            AdjacencyMatrixGraph mst = GraphAlgorithms.prim(graphAMG);
 //            AdjMatrixGraphVisualization visualization = new AdjMatrixGraphVisualization(mst);
@@ -202,5 +202,5 @@ public class mstController {
 //            paneGraphRight.getChildren().clear();
 //            paneGraphRight.getChildren().add(visualization);
 //        }
-//    }
+    }
 }
