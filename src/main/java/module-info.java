@@ -7,4 +7,5 @@ module lab12.laboratory12 {
     exports lab12.laboratory12;
     exports controller;
     opens controller to javafx.fxml;
+    opens domain to javafx.base;
 }

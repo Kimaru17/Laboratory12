@@ -1,12 +1,11 @@
 package controller;
 
-import domain.DirectedSinglyLinkedListGraph;
 import domain.GraphException;
+import domain.DirectedSinglyLinkedListGraph;
 import domain.list.ListException;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import util.Utility;
 import util.FXUtility;
@@ -18,39 +17,44 @@ public class OperationsDirectedSinglyLinkedListGraphController
     @javafx.fxml.FXML
     private TextArea ta_toString;
 
-    private String[] monuments;
+    private String[] names;
     DirectedSinglyLinkedListGraph graph;
-    private Alert alert;
     DirectedSinglyLinkedListGraphVisualization visualization;
+    private Alert alert;
 
     @javafx.fxml.FXML
     public void initialize() throws GraphException, ListException {
-        graph = new DirectedSinglyLinkedListGraph();
-        monuments = new String[]{ "Great Wall of China", "Taj Mahal", "Machu Picchu", "Colosseum",
-                "Pyramids of Giza", "Eiffel Tower", "Stonehenge", "Statue of Liberty", "Alhambra",
-                "Temple of Kukulcan", "Angkor Wat", "Parthenon", "Petra", "Christ the Redeemer",
-                "Big Ben", "Neuschwanstein Castle", "Mount Rushmore", "Sagrada Familia",
-                "Leaning Tower of Pisa", "Acropolis of Athens", "Tower Bridge",
-                "Palace of Versailles", "Notre Dame Cathedral", "St. Peter's Basilica",
-                "St. Basil's Cathedral", "Brandenburg Gate", "Chichen Itza", "Himeji Castle",
-                "Petronas Towers", "Sydney Opera House"};
+        names= new String[] {"Jesús", "Mahoma", "C.Colón", "J. Cesar", "A. Magno",
+                "Platón", "Lao Tse", "L. Da Vinci", "Gutenberg", "A. Einstein",
+                "C. Darwin", "Karl Marx", "I. Newton", "M. Gandhi", "L. Pasteur",
+                "G. Galilei", "Mozart", "Aristóteles", "M. Ángel", "Amstrong",
+                "Stalin", "M. Curie", "M. Luther King", "Napoleón", "M. Lutero",
+                "Shakespeare", "Pitágoras", "G. Washington", "Lenin", "Buda",
+                "Confucio", "Euclides", "Constantino I", "Isabel I", "F. Pizarro",
+                "H. Cortés", "J. Calvino", "Beethoven", "N. Copérnico", "Homero",
+                "Pedro I", "Cleopatra", "Edison", "N. Tesla", "B. Gates",
+                "A. Fleming", "S. de Beauvoir", "J. Watt", "Tales", "J. Dalton"};
+
+        graph= new DirectedSinglyLinkedListGraph();
+        alert = FXUtility.alert("Operations DirectedSinglyLinkedListGraph", null);
+
         setGraph();
         generateEdges();
         displayGraph();
-        alert = FXUtility.alert("SinglyLinkedListGraph", null);
         ta_toString.setVisible(true);
         ta_toString.setText(graph.toString());
+
     }
 
     private void setGraph() throws GraphException, ListException {
         int count = 1;
         while (count <= 10){
-            int randomIndex = util.Utility.random(30)-1;
+            int randomIndex = util.Utility.random(50)-1;
             if (graph.isEmpty()) {
-                graph.addVertex(monuments[randomIndex]);
+                graph.addVertex(names[randomIndex]);
                 count++;
             } else{
-                String currentName = monuments[randomIndex];
+                String currentName = names[randomIndex];
                 if (!graph.containsVertex(currentName)){
                     graph.addVertex(currentName);
                     count++;
@@ -58,26 +62,22 @@ public class OperationsDirectedSinglyLinkedListGraphController
             }
         }
     }
+    private void generateEdges() throws GraphException, ListException {
+        for (int i = 0; i < 15; i++) {
+            Object a = graph.getVertexByIndex(Utility.random(10)).data;
+            Object b = graph.getVertexByIndex(Utility.random(10)).data;
+
+            int weight = util.Utility.random(1000) + 1000;
+
+            graph.addEdgeWeight(a, b, weight);
+        }
+    }
+
     private void displayGraph() throws ListException, GraphException {
         paneGraph.getChildren().clear();
         visualization = new DirectedSinglyLinkedListGraphVisualization(graph);
         visualization.displayGraph();
         paneGraph.getChildren().add(visualization);
-    }
-
-    private void generateEdges() throws GraphException, ListException {
-        int countEdges = 0;
-        while (countEdges < 15){
-            Object a = graph.getVertexByIndex(Utility.random(10)).data;
-            Object b = graph.getVertexByIndex(Utility.random(10)).data;
-
-            if (!a.equals(b) && !graph.containsEdge(a, b)){
-                int weight = util.Utility.random(200) + 200;
-                graph.addEdgeWeight(a, b, weight);
-                countEdges++;
-            }
-        }
-
     }
 
     @javafx.fxml.FXML
@@ -102,22 +102,21 @@ public class OperationsDirectedSinglyLinkedListGraphController
     public void addVertexOnAction(ActionEvent actionEvent) throws ListException, GraphException {
         if (graph.isEmpty()){
             int randomIndex = util.Utility.random(50) - 1;
-            String currentMonument = monuments[randomIndex];
-            graph.addVertex(currentMonument);
+            String currentName = names[randomIndex];
+            graph.addVertex(currentName);
             displayGraph();
             ta_toString.setVisible(true);
             ta_toString.setText(graph.toString());
-            System.out.println("pase");
         }else if (graph.size()==10) {
             alert.setContentText("The graph is full");
             alert.showAndWait();
         } else {
             boolean added = false;
             while (!added) {
-                int randomIndex = util.Utility.random(30) - 1;
-                String currentMonument = monuments[randomIndex];
-                if (!graph.containsVertex(currentMonument)) {
-                    graph.addVertex(currentMonument);
+                int randomIndex = util.Utility.random(50) - 1;
+                String currentName = names[randomIndex];
+                if (!graph.containsVertex(currentName)) {
+                    graph.addVertex(currentName);
                     added= true;
                 }
             }
@@ -143,10 +142,10 @@ public class OperationsDirectedSinglyLinkedListGraphController
         else {
             boolean removed = false;
             while (!removed) {
-                int randomIndex = util.Utility.random(30) - 1;
-                String currentMonuments = monuments[randomIndex];
-                if (graph.containsVertex(currentMonuments)) {
-                    graph.removeVertex(currentMonuments);
+                int randomIndex = util.Utility.random(50) - 1;
+                String currentName = names[randomIndex];
+                if (graph.containsVertex(currentName)) {
+                    graph.removeVertex(currentName);
                     removed= true;
                 }
             }
@@ -154,8 +153,9 @@ public class OperationsDirectedSinglyLinkedListGraphController
             ta_toString.setText(graph.toString());
         }
     }
+
     @javafx.fxml.FXML
-    public void addEdgesAndWeightsOnAction(ActionEvent actionEvent) throws GraphException, ListException {
+    public void addEdgesAndWeightsOnAction(ActionEvent actionEvent) throws ListException, GraphException {
         if (graph.isEmpty()){
             alert.setContentText("Cant add edges and weight because the graph is empty");
             alert.showAndWait();
@@ -168,13 +168,12 @@ public class OperationsDirectedSinglyLinkedListGraphController
                 Object a = graph.getVertexByIndex(Utility.random(graph.size())).data;
                 Object b = graph.getVertexByIndex(Utility.random(graph.size())).data;
                 if (!graph.containsEdge(a,b) && a!=b) {
-                    int weight = util.Utility.random(200) + 200;
+                    int weight = util.Utility.random(1000) + 1000;
                     graph.addEdgeWeight(a, b, weight);
                     added=true;
                 }
             }
             displayGraph();
-
             ta_toString.setText(graph.toString());
         }
     }
@@ -202,6 +201,4 @@ public class OperationsDirectedSinglyLinkedListGraphController
             ta_toString.setText(graph.toString());
         }
     }
-
-
 }

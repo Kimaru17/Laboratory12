@@ -36,7 +36,7 @@ public class HelloController {
 
     @FXML
     public void linkedGraphOnAction(ActionEvent actionEvent) {
-        loadPage("mstView.fxml");
+        loadPage("OperationDirectedGraphSelection.fxml");
     }
 
     @FXML
@@ -47,29 +47,29 @@ public class HelloController {
 
     @FXML
     public void linkedOnAction(ActionEvent actionEvent) {
-        loadPage("mstView.fxml");
+        loadPage("OperationDirectedGraphSelection.fxml");
     }
 
     @FXML
     public void MatrixGraphOnAction(ActionEvent actionEvent) {
-        loadPage("directedSinglyLinkedListGraphOperations.fxml");
+        loadPage("OperationDirectedGraphSelection.fxml");
 
     }
 
     @FXML
     public void MatrixOperationsOnAction(ActionEvent actionEvent) {
-        loadPage("directedSinglyLinkedListGraphView.fxml");
+        loadPage("OperationDirectedGraphSelection.fxml");
 
     }
 
     @FXML
     public void ListGraphOnAction(ActionEvent actionEvent) {
-        loadPage("shortestPathView.fxml");
+        loadPage("ViewDirectedGraphSelection.fxml");
 
     }
 
     @FXML
     public void ListOperatioOnAction(ActionEvent actionEvent) {
-        loadPage("mstView.fxml");
+        loadPage("OperationDirectedGraphSelection.fxml");
     }
 }

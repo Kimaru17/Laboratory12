@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="696.0" prefWidth="1126.0" style="-fx-background-color: #4acabb;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DirectedAdjListGraphViewController">
+   <children>
+      <Pane layoutY="62.0" prefHeight="634.0" prefWidth="1126.0" style="-fx-background-color: #f4fcb8;">
+         <children>
+            <Pane fx:id="paneGraph" layoutX="516.0" layoutY="19.0" prefHeight="598.0" prefWidth="587.0" style="-fx-background-color: #dae681;" />
+            <TextArea fx:id="ta_toString" editable="false" layoutX="33.0" layoutY="202.0" prefHeight="415.0" prefWidth="457.0" style="-fx-background-color: #cc7254;" visible="false">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></TextArea>
+            <Button layoutX="275.0" layoutY="19.0" mnemonicParsing="false" onAction="#containsVertexOnAction" prefHeight="56.0" prefWidth="216.0" style="-fx-background-color: #95a868;" text="Contains Vertex" textFill="WHITE" />
+            <Button layoutX="275.0" layoutY="75.0" mnemonicParsing="false" onAction="#toStringOnAction" prefHeight="56.0" prefWidth="216.0" style="-fx-background-color: #b1bf63;" text="To String" />
+            <Button layoutX="275.0" layoutY="131.0" mnemonicParsing="false" onAction="#bfsTourOnAction" prefHeight="56.0" prefWidth="216.0" style="-fx-background-color: #dae681;" text="BFS Tour" />
+            <Button layoutX="33.0" layoutY="19.0" mnemonicParsing="false" onAction="#randomizeOnAction" prefHeight="56.0" prefWidth="226.0" style="-fx-background-color: #95a868;" text="Randomize" textFill="WHITE" />
+            <Button layoutX="33.0" layoutY="75.0" mnemonicParsing="false" onAction="#containsEdgeOnAction" prefHeight="56.0" prefWidth="226.0" style="-fx-background-color: #b1bf63;" text="Contains Edge" />
+            <Button layoutX="33.0" layoutY="131.0" mnemonicParsing="false" onAction="#dfsTourOnAction" prefHeight="56.0" prefWidth="226.0" style="-fx-background-color: #dae681;" text="DFS Tour" />
+         </children></Pane>
+      <Pane prefHeight="63.0" prefWidth="1126.0" style="-fx-background-color: #452c18;">
+         <children>
+            <Text fill="#f0ffdc" layoutX="370.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adjacency List Graph ">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="36.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.ViewDirectedGraphSelection"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <!-- RadioButtons -->
+        <Pane layoutY="63.0" prefHeight="44.0" prefWidth="900.0">
+            <children>
+                <RadioButton fx:id="rb_adjMatrix" layoutX="186.0" layoutY="14.0" onAction="#AdjacencyMatrixOnAction" text="Adjacency Matrix" />
+                <RadioButton fx:id="rb_adjList" layoutX="420.0" layoutY="14.0" onAction="#AdjacencyListOnAction" text="Adjacency List" />
+                <RadioButton fx:id="rb_LinkedList" layoutX="617.0" layoutY="14.0" onAction="#LinkedListOnAction" text="Linked List" />
+            </children>
+        </Pane>
+
+        <!-- Aquí se cargan las vistas -->
+        <AnchorPane fx:id="containerPane" layoutY="107.0" prefHeight="500.0" prefWidth="900.0" />
+
+        <!-- Título u otros elementos -->
+        <Pane prefHeight="63.0" prefWidth="900.0" style="-fx-background-color: #2b5166;">
+            <children>
+                <Text fill="#dee1a9" layoutX="120.0" layoutY="46.0" text="Directed Graph">
+                    <font>
+                        <Font name="Berlin Sans FB" size="40.0" />
+                    </font>
+                </Text>
+            </children>
+        </Pane>
+    </children>
+
+</AnchorPane>

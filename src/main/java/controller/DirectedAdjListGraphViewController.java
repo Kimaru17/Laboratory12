@@ -1,7 +1,7 @@
 package controller;
 
+import domain.DirectedAdjacencyListGraph;
 import domain.GraphException;
-import domain.DirectedSinglyLinkedListGraph;
 import domain.list.ListException;
 import domain.queue.QueueException;
 import domain.stack.StackException;
@@ -15,69 +15,67 @@ import util.FXUtility;
 
 import java.util.Optional;
 
-public class DirectedSinglyLinkedListGraphController {
+public class DirectedAdjListGraphViewController {
     @javafx.fxml.FXML
     private Pane paneGraph;
     @javafx.fxml.FXML
     private TextArea ta_toString;
-
-    DirectedSinglyLinkedListGraph graph;
-    private String[] names;
-    DirectedSinglyLinkedListGraphVisualization visualization;
+    private String[] letters;
+    DirectedAdjacencyListGraph graph;
     private Alert alert;
     private TextInputDialog dialog;
+    DirectedAdjListGraphVisualization visualization;
 
     public void initialize() throws GraphException, ListException {
-        graph = new DirectedSinglyLinkedListGraph();
-        names = new String[]{"Jesús", "Mahoma", "C.Colón", "J. Cesar", "A. Magno",
-                "Platón", "Lao Tse", "L. Da Vinci", "Gutenberg", "A. Einstein",
-                "C. Darwin", "Karl Marx", "I. Newton", "M. Gandhi", "L. Pasteur",
-                "G. Galilei", "Mozart", "Aristóteles", "M. Ángel", "Amstrong",
-                "Stalin", "M. Curie", "M. Luther King", "Napoleón", "M. Lutero",
-                "Shakespeare", "Pitágoras", "G. Washington", "Lenin", "Buda",
-                "Confucio", "Euclides", "Constantino I", "Isabel I", "F. Pizarro",
-                "H. Cortés", "J. Calvino", "Beethoven", "N. Copérnico", "Homero",
-                "Pedro I", "Cleopatra", "Edison", "N. Tesla", "B. Gates",
-                "A. Fleming", "S. de Beauvoir", "J. Watt", "Tales", "J. Dalton"};
+        graph = new DirectedAdjacencyListGraph(26); // 26 letras
+        // Letras del abecedario
+        letters = new String[]{
+                "A","B","C","D","E","F","G","H","I","J","K","L","M",
+                "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+        };
         setGraph();
         generateEdges();
         displayGraph();
-        alert = FXUtility.alert("DirectedSinglyLinkedListGraph", null);
-        dialog = FXUtility.dialog("DirectedSinglyLinkedListGraph", null);
+        alert = FXUtility.alert("AdjListGraph", null);
+        dialog = FXUtility.dialog("AdjListGraph", null);
     }
 
     private void setGraph() throws GraphException, ListException {
         int count = 1;
         while (count <= 10){
-            int randomIndex = util.Utility.random(50)-1;
+            int randomIndex = Utility.random(26)-1;
             if (graph.isEmpty()) {
-                graph.addVertex(names[randomIndex]);
+                graph.addVertex(letters[randomIndex]);
                 count++;
             } else{
-                String currentName = names[randomIndex];
-                if (!graph.containsVertex(currentName)){
-                    graph.addVertex(currentName);
+                String currentLetter = letters[randomIndex];
+                if (!graph.containsVertex(currentLetter)){
+                    graph.addVertex(currentLetter);
                     count++;
                 }
             }
         }
     }
-    private void generateEdges() throws GraphException, ListException {
-        for (int i = 0; i < 15; i++) {
-            Object a = graph.getVertexByIndex(Utility.random(10)).data;
-            Object b = graph.getVertexByIndex(Utility.random(10)).data;
-
-            int weight = util.Utility.random(1000) + 1000;
-
-            graph.addEdgeWeight(a, b, weight);
-        }
-    }
 
     private void displayGraph() throws ListException, GraphException {
         paneGraph.getChildren().clear();
-        visualization = new DirectedSinglyLinkedListGraphVisualization(graph);
+        visualization = new DirectedAdjListGraphVisualization(graph);
         visualization.displayGraph();
         paneGraph.getChildren().add(visualization);
+    }
+
+    private void generateEdges() throws GraphException, ListException {
+        int countEdges = 0;
+        while (countEdges < 15){
+            Object a = graph.getVertexByIndex(Utility.random(graph.size())-1).data;
+            Object b = graph.getVertexByIndex(Utility.random(graph.size())-1).data;
+
+            if (!a.equals(b) && !graph.containsEdge(a, b)){
+                int weight = Utility.random(49) + 1;
+                graph.addEdgeWeight(a, b, weight);
+                countEdges++;
+            }
+        }
     }
 
     @javafx.fxml.FXML
@@ -94,7 +92,7 @@ public class DirectedSinglyLinkedListGraphController {
 
     @javafx.fxml.FXML
     public void randomizeOnAction(ActionEvent actionEvent) throws GraphException, ListException {
-        graph = new DirectedSinglyLinkedListGraph();
+        graph = new DirectedAdjacencyListGraph(26);
         setGraph();
         generateEdges();
         displayGraph();
@@ -123,11 +121,7 @@ public class DirectedSinglyLinkedListGraphController {
                     alert.setContentText("The elements [" + elements[0] + ", " + elements[1] + "] don't have an edge");
                     alert.showAndWait();
                 }
-            } catch (GraphException e) {
-                throw new RuntimeException(e);
-            } catch (ListException e) {
-                throw new RuntimeException(e);
-            } catch (RuntimeException e) {
+            } catch (GraphException | ListException | RuntimeException e) {
                 alert.setContentText("Please put this format 'A'-'B'");
                 alert.showAndWait();
             }
@@ -148,9 +142,7 @@ public class DirectedSinglyLinkedListGraphController {
                     alert.setContentText("The element [" + vertex + "] doesn't exist in the graph");
                     alert.showAndWait();
                 }
-            } catch (GraphException e) {
-                throw new RuntimeException(e);
-            } catch (ListException e) {
+            } catch (GraphException | ListException e) {
                 throw new RuntimeException(e);
             }
         });

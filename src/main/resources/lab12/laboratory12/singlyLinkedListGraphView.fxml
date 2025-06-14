@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="696.0" prefWidth="1126.0" style="-fx-background-color: #4acabb;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SinglyLinkedListGraphController">
+   <children>
+      <Pane layoutY="63.0" prefHeight="637.0" prefWidth="1126.0" style="-fx-background-color: #a5c8ca;">
+         <children>
+            <Pane fx:id="paneGraph" layoutX="516.0" layoutY="19.0" prefHeight="598.0" prefWidth="587.0" style="-fx-background-color: #a5c8ca;" />
+            <Button layoutX="275.0" layoutY="19.0" mnemonicParsing="false" onAction="#containsVertexOnAction" prefHeight="56.0" prefWidth="216.0" style="-fx-background-color: #dedede;" text="Contains Vertex" />
+            <Button layoutX="275.0" layoutY="75.0" mnemonicParsing="false" onAction="#toStringOnAction" prefHeight="56.0" prefWidth="216.0" style="-fx-background-color: #dedede;" text="To String" />
+            <Button layoutX="275.0" layoutY="131.0" mnemonicParsing="false" onAction="#bfsTourOnAction" prefHeight="56.0" prefWidth="216.0" style="-fx-background-color: #dedede;" text="BFS Tour" />
+            <Button layoutX="33.0" layoutY="19.0" mnemonicParsing="false" onAction="#randomizeOnAction" prefHeight="56.0" prefWidth="226.0" style="-fx-background-color: #dedede;" text="Randomize" />
+            <Button layoutX="33.0" layoutY="75.0" mnemonicParsing="false" onAction="#containsEdgeOnAction" prefHeight="56.0" prefWidth="226.0" style="-fx-background-color: #dedede;" text="Contains Edge" />
+            <Button layoutX="33.0" layoutY="131.0" mnemonicParsing="false" onAction="#dfsTourOnAction" prefHeight="56.0" prefWidth="226.0" style="-fx-background-color: #dedede;" text="DFS Tour" />
+            <TextArea fx:id="ta_toString" editable="false" layoutX="33.0" layoutY="202.0" prefHeight="415.0" prefWidth="457.0" style="-fx-background-color: #142f30;" visible="false" wrapText="true">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></TextArea>
+         </children></Pane>
+      <Pane prefHeight="63.0" prefWidth="1126.0" style="-fx-background-color: #2b5166;">
+         <children>
+            <Text fill="#dee1a9" layoutX="356.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Singly Linked List Graph">
+               <font>
+                  <Font name="Berlin Sans FB" size="40.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

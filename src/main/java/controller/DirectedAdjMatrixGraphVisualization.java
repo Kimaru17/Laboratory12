@@ -1,6 +1,6 @@
 package controller;
 
-import domain.AdjacencyMatrixGraph;
+import domain.DirectedAdjacencyMatrixGraph;
 import domain.GraphException;
 import domain.list.ListException;
 import javafx.event.EventHandler;
@@ -13,9 +13,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class AdjMatrixGraphVisualization extends Pane {
+public class DirectedAdjMatrixGraphVisualization extends Pane {
 
-    private AdjacencyMatrixGraph graph;
+    private DirectedAdjacencyMatrixGraph graph;
     private static final double WIDTH = 600;
     private static final double HEIGHT = 300;
 
@@ -23,7 +23,7 @@ public class AdjMatrixGraphVisualization extends Pane {
     private Line selectedLine = null; // solo una línea puede estar seleccionada
     private Text selectedInfoText = null; // solo una info de arista visible
 
-    public AdjMatrixGraphVisualization(AdjacencyMatrixGraph graph) throws ListException {
+    public DirectedAdjMatrixGraphVisualization(DirectedAdjacencyMatrixGraph graph) throws ListException {
         this.graph = graph;
         this.setWidth(1050);
         this.setHeight(1500);
@@ -68,15 +68,15 @@ public class AdjMatrixGraphVisualization extends Pane {
     }
 
     private void displayEdges() throws GraphException, ListException {
+        // Cambiado: revisa todos los pares i ≠ j para grafos dirigidos
         for (int i = 1; i <= graph.size(); i++) {
-            for (int j = i + 1; j <= graph.size(); j++) {
-
+            for (int j = 1; j <= graph.size(); j++) {
                 if (i == j) continue;
 
                 Object a = graph.getVertexByIndex(i - 1).data;
                 Object b = graph.getVertexByIndex(j - 1).data;
 
-                // En matriz, simplemente verifica si el peso es distinto de 0
+                // En matriz, verifica si el peso es distinto de 0 o null
                 Object weight = graph.getWeightEdges(a, b);
                 boolean exists = (weight != null && !weight.toString().equals("0"));
                 if (exists) {

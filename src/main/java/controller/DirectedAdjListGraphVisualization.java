@@ -1,6 +1,6 @@
 package controller;
 
-import domain.AdjacencyListGraph;
+import domain.DirectedAdjacencyListGraph;
 import domain.GraphException;
 import domain.list.ListException;
 import javafx.event.EventHandler;
@@ -13,9 +13,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class AdjListGraphVisualization extends Pane {
+public class DirectedAdjListGraphVisualization extends Pane {
 
-    private AdjacencyListGraph graph;
+    private DirectedAdjacencyListGraph graph;
     private static final double WIDTH = 600;
     private static final double HEIGHT = 300;
 
@@ -23,7 +23,7 @@ public class AdjListGraphVisualization extends Pane {
     private Line selectedLine = null; // solo una línea puede estar seleccionada
     private Text selectedInfoText = null; // solo una info de arista visible
 
-    public AdjListGraphVisualization(AdjacencyListGraph graph) throws ListException {
+    public DirectedAdjListGraphVisualization(DirectedAdjacencyListGraph graph) throws ListException {
         this.graph = graph;
         this.setWidth(1050);
         this.setHeight(1500);
@@ -68,14 +68,12 @@ public class AdjListGraphVisualization extends Pane {
     }
 
     private void displayEdges() throws GraphException, ListException {
+        // Mostrar TODAS las combinaciones posibles i ≠ j
         for (int i = 1; i <= graph.size(); i++) {
-            for (int j = i + 1; j <= graph.size(); j++) {
-
+            for (int j = 1; j <= graph.size(); j++) {
                 if (i == j) continue;
-
                 Object a = graph.getVertexByIndex(i - 1).data;
                 Object b = graph.getVertexByIndex(j - 1).data;
-
                 if (graph.containsEdge(a, b)) {
                     Circle circleA = (Circle) this.lookup("#vertex-" + i);
                     Circle circleB = (Circle) this.lookup("#vertex-" + j);

@@ -14,7 +14,7 @@ class DirectedAdjacencyListGraphTest {
         try {
             DirectedAdjacencyListGraph graph = new DirectedAdjacencyListGraph(50);
             for (int i = 0; i < 30; i++) {
-                graph.addVertex(util.Utility.random(40)+1);  // Adding random vertices from 1 to 40
+                graph.addVertex(util.Utility.random(40));  // Adding random vertices from 1 to 40
             }
 
             System.out.println(graph);  //toString
@@ -31,7 +31,7 @@ class DirectedAdjacencyListGraphTest {
             System.out.println("BFS Transversal Tour: "+graph.bfs());
             int deleted = 5; // Number of vertices to delete
             for (int i = 0; i <deleted ;) {
-                int g= util.Utility.random(40)+1;
+                int g= util.Utility.random(40);
                 if(graph.containsVertex(g)) {
                     System.out.println("\nVertex deleted: " + g);
                     graph.removeVertex(g);
@@ -45,7 +45,7 @@ class DirectedAdjacencyListGraphTest {
         }
     }
 
-    private void connectRandomEvenOddVertices(AdjacencyListGraph graph) throws GraphException, ListException {
+    private void connectRandomEvenOddVertices(DirectedAdjacencyListGraph graph) throws GraphException, ListException {
         int counter = graph.size();
         int[] even = new int[counter];
         int[] odd = new int[counter];
@@ -69,7 +69,7 @@ class DirectedAdjacencyListGraphTest {
 
 
         for (int i = 0; i < 10; i++) {
-            int weight = util.Utility.random(40) + 1;
+            int weight = util.Utility.random(40) ;
             graph.addEdgeWeight(selectedEven[i], selectedOdd[i], weight);
         }
     }
