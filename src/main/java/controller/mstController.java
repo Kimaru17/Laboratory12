@@ -6,7 +6,6 @@ import domain.list.SinglyLinkedList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Pane;
-//import util.GraphAlgorithms;
 import util.Utility;
 
 import java.util.ArrayList;
@@ -160,47 +159,11 @@ public class mstController {
 
    @javafx.fxml.FXML
     public void kruskalOnAction(ActionEvent actionEvent) throws GraphException, ListException {
-//        if (rb_adjMatrix.isSelected()) {
-//            AdjacencyMatrixGraph mst = GraphAlgorithms.kruskal(graphAMG);
-//            AdjMatrixGraphVisualization visualization = new AdjMatrixGraphVisualization(mst);
-//            visualization.displayGraph();
-//            paneGraphRight.getChildren().clear();
-//            paneGraphRight.getChildren().add(visualization);
-//        } else if (rb_adjList.isSelected()) {
-//            AdjacencyListGraph mst = graphALG.kruskal();
-//            AdjListGraphVisualization visualization = new AdjListGraphVisualization(mst);
-//            visualization.displayGraph();
-//            paneGraphRight.getChildren().clear();
-//            paneGraphRight.getChildren().add(visualization);
-//        } else if (rb_linkedList.isSelected()) {
-//            SinglyLinkedListGraph mst = graphSLLG.kruskal();
-//            SinglyLinkedListGraphVisualization visualization = new SinglyLinkedListGraphVisualization(mst);
-//            visualization.displayGraph();
-//            paneGraphRight.getChildren().clear();
-//            paneGraphRight.getChildren().add(visualization);
-//        }
+
     }
-//
+
     @javafx.fxml.FXML
     public void primOnAction(ActionEvent actionEvent) throws GraphException, ListException {
-//        if (rb_adjMatrix.isSelected()) {
-//            AdjacencyMatrixGraph mst = GraphAlgorithms.prim(graphAMG);
-//            AdjMatrixGraphVisualization visualization = new AdjMatrixGraphVisualization(mst);
-//            visualization.displayGraph();
-//            paneGraphRight.getChildren().clear();
-//            paneGraphRight.getChildren().add(visualization);
-//        } else if (rb_adjList.isSelected()) {
-//            AdjacencyListGraph mst = graphALG.prim();
-//            AdjListGraphVisualization visualization = new AdjListGraphVisualization(mst);
-//            visualization.displayGraph();
-//            paneGraphRight.getChildren().clear();
-//            paneGraphRight.getChildren().add(visualization);
-//        } else if (rb_linkedList.isSelected()) {
-//            SinglyLinkedListGraph mst = graphSLLG.prim();
-//            SinglyLinkedListGraphVisualization visualization = new SinglyLinkedListGraphVisualization(mst);
-//            visualization.displayGraph();
-//            paneGraphRight.getChildren().clear();
-//            paneGraphRight.getChildren().add(visualization);
-//        }
+
     }
 }
