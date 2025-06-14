@@ -12,7 +12,7 @@
    <center>
       <AnchorPane fx:id="ap" prefHeight="635.0" prefWidth="535.0">
          <children>
-            <Text fx:id="messageText" fill="WHITE" layoutX="482.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Laboratory 11">
+            <Text fx:id="messageText" fill="WHITE" layoutX="482.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Laboratory 12">
                <font>
                   <Font name="Arial" size="40.0" />
                </font>
@@ -30,34 +30,24 @@
                <Font name="Arial" size="25.0" />
             </font>
          </Button>
-         <Button layoutX="30.0" layoutY="68.0" onAction="#MatrixGraphOnAction" prefHeight="58.0" prefWidth="332.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Matrix graph" textFill="WHITE">
+         <Button layoutX="30.0" layoutY="68.0" onAction="#DirectedGraphOnAction" prefHeight="58.0" prefWidth="332.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Directed Graph" textFill="WHITE">
             <font>
                <Font name="Arial" size="25.0" />
             </font>
          </Button>
-         <Button layoutX="30.0" layoutY="113.0" onAction="#ListGraphOnAction" prefHeight="58.0" prefWidth="326.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="List Graph" textFill="WHITE">
+         <Button layoutX="30.0" layoutY="113.0" onAction="#DirectedGraphOperationsOnAction" prefHeight="58.0" prefWidth="326.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Operations" textFill="WHITE">
             <font>
                <Font name="Arial" size="25.0" />
             </font>
          </Button>
-         <Button layoutX="30.0" layoutY="187.0" onAction="#linkedGraphOnAction" prefHeight="58.0" prefWidth="321.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Linked Graph" textFill="WHITE">
+         <Button layoutX="30.0" layoutY="187.0" onAction="#ShortestPathOnAction" prefHeight="58.0" prefWidth="321.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Dijkstra" textFill="WHITE">
             <font>
                <Font name="Arial" size="23.0" />
             </font>
          </Button>
-         <Button layoutX="30.0" layoutY="186.0" onAction="#MatrixOperationsOnAction" prefHeight="58.0" prefWidth="326.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Matrix Operations" textFill="WHITE">
+         <Button layoutX="30.0" layoutY="186.0" onAction="#KruskalPrimOnAction" prefHeight="58.0" prefWidth="326.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Kruskal/Prim" textFill="WHITE">
             <font>
                <Font name="Arial" size="21.0" />
-            </font>
-         </Button>
-         <Button layoutX="30.0" layoutY="342.0" onAction="#ListOperatioOnAction" prefHeight="58.0" prefWidth="326.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="List Operations" textFill="WHITE">
-            <font>
-               <Font name="Arial" size="25.0" />
-            </font>
-         </Button>
-         <Button layoutX="30.0" layoutY="498.0" onAction="#linkedOnAction" prefHeight="58.0" prefWidth="326.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Linked Operations" textFill="WHITE">
-            <font>
-               <Font name="Arial" size="25.0" />
             </font>
          </Button>
          <Button layoutX="30.0" layoutY="159.0" onAction="#exit" prefHeight="58.0" prefWidth="324.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Exit" textFill="WHITE">

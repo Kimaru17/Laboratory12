@@ -35,41 +35,22 @@ public class HelloController {
     }
 
     @FXML
-    public void linkedGraphOnAction(ActionEvent actionEvent) {
+    public void KruskalPrimOnAction(ActionEvent actionEvent) {
+        loadPage("mstView.fxml");
+    }
+
+    @FXML
+    public void ShortestPathOnAction(ActionEvent actionEvent) {
         loadPage("shortestPathView.fxml");
     }
 
     @FXML
-    public void home(ActionEvent actionEvent) {
-        this.messageText.setText("Laboratory No.11");
-        this.bp.setCenter(ap);
-    }
-
-    @FXML
-    public void linkedOnAction(ActionEvent actionEvent) {
-        loadPage("mstView.fxml");
-    }
-
-    @FXML
-    public void MatrixGraphOnAction(ActionEvent actionEvent) {
+    public void DirectedGraphOperationsOnAction(ActionEvent actionEvent) {
         loadPage("OperationDirectedGraphSelection.fxml");
-
     }
 
     @FXML
-    public void MatrixOperationsOnAction(ActionEvent actionEvent) {
-        loadPage("mstView.fxml");
-
-    }
-
-    @FXML
-    public void ListGraphOnAction(ActionEvent actionEvent) {
+    public void DirectedGraphOnAction(ActionEvent actionEvent) {
         loadPage("ViewDirectedGraphSelection.fxml");
-
-    }
-
-    @FXML
-    public void ListOperatioOnAction(ActionEvent actionEvent) {
-        loadPage("mstView.fxml");
     }
 }
