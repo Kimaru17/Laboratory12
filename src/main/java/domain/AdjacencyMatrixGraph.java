@@ -6,8 +6,7 @@ import domain.queue.QueueException;
 import domain.stack.LinkedStack;
 import domain.stack.StackException;
 
-import java.util.Arrays;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class AdjacencyMatrixGraph implements Graph {
     private Vertex[] vertexList; //arreglo de objetos tupo vértice
@@ -290,5 +289,124 @@ public class AdjacencyMatrixGraph implements Graph {
         }
 
         return result;
+    }
+
+    /// ///////////////////////////Prim y Kruskal//////////////////////////
+    public int prim(int startVertex) throws GraphException {
+        if (startVertex < 0 || startVertex >= counter)
+            throw new GraphException("Invalid start vertex");
+
+        boolean[] inMST = new boolean[counter];
+        int[] key = new int[counter];
+        Arrays.fill(key, Integer.MAX_VALUE);
+        key[startVertex] = 0;
+
+        int totalWeight = 0;
+
+        for (int count = 0; count < counter; count++) {
+            int u = -1;
+            int minKey = Integer.MAX_VALUE;
+            for (int v = 0; v < counter; v++) {
+                if (!inMST[v] && key[v] < minKey) {
+                    minKey = key[v];
+                    u = v;
+                }
+            }
+
+            if (u == -1) break;
+
+            inMST[u] = true;
+            totalWeight += key[u];
+
+            for (int v = 0; v < counter; v++) {
+                if (!inMST[v] && util.Utility.compare(adjacencyMatrix[u][v], 0) != 0) {
+                    int weight = (int) adjacencyMatrix[u][v];
+                    if (weight < key[v]) {
+                        key[v] = weight;
+                    }
+                }
+            }
+        }
+
+        return totalWeight;
+    }
+
+    // --- KRUSKAL ---
+
+    private class Edge implements Comparable<Edge> {
+        int src;
+        int dest;
+        int weight;
+
+        public Edge(int src, int dest, int weight) {
+            this.src = src;
+            this.dest = dest;
+            this.weight = weight;
+        }
+
+        @Override
+        public int compareTo(Edge other) {
+            return Integer.compare(this.weight, other.weight);
+        }
+
+        @Override
+        public String toString() {
+            return "Edge{" + "src=" + vertexList[src].data + ", dest=" + vertexList[dest].data + ", weight=" + weight + '}';
+        }
+    }
+
+    private class UnionFind {
+        int[] parent;
+        int[] rank;
+
+        public UnionFind(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; i++) parent[i] = i;
+        }
+
+        public int find(int u) {
+            if (parent[u] != u) parent[u] = find(parent[u]);
+            return parent[u];
+        }
+
+        public void union(int u, int v) {
+            int rootU = find(u);
+            int rootV = find(v);
+            if (rootU != rootV) {
+                if (rank[rootU] < rank[rootV]) parent[rootU] = rootV;
+                else if (rank[rootU] > rank[rootV]) parent[rootV] = rootU;
+                else {
+                    parent[rootV] = rootU;
+                    rank[rootU]++;
+                }
+            }
+        }
+    }
+
+    public List<Edge> kruskal() throws GraphException {
+        List<Edge> edges = new ArrayList<>();
+
+        for (int i = 0; i < counter; i++) {
+            for (int j = i + 1; j < counter; j++) {
+                if (util.Utility.compare(adjacencyMatrix[i][j], 0) != 0) {
+                    edges.add(new Edge(i, j, (int) adjacencyMatrix[i][j]));
+                }
+            }
+        }
+
+        Collections.sort(edges);
+
+        UnionFind uf = new UnionFind(counter);
+        List<Edge> mst = new ArrayList<>();
+
+        for (Edge edge : edges) {
+            if (uf.find(edge.src) != uf.find(edge.dest)) {
+                uf.union(edge.src, edge.dest);
+                mst.add(edge);
+            }
+        }
+
+        return mst;
     }
 }

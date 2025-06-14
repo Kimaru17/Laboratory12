@@ -6,6 +6,7 @@ import domain.list.SinglyLinkedList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Pane;
+import util.GraphAlgorithms;
 import util.Utility;
 
 import java.util.ArrayList;
@@ -160,7 +161,7 @@ public class mstController {
     @javafx.fxml.FXML
     public void kruskalOnAction(ActionEvent actionEvent) throws GraphException, ListException {
         if (rb_adjMatrix.isSelected()) {
-            AdjacencyMatrixGraph mst = graphAMG.kruskal();
+            AdjacencyMatrixGraph mst = GraphAlgorithms.kruskal(graphAMG);
             AdjMatrixGraphVisualization visualization = new AdjMatrixGraphVisualization(mst);
             visualization.displayGraph();
             paneGraphRight.getChildren().clear();
@@ -183,7 +184,7 @@ public class mstController {
     @javafx.fxml.FXML
     public void primOnAction(ActionEvent actionEvent) throws GraphException, ListException {
         if (rb_adjMatrix.isSelected()) {
-            AdjacencyMatrixGraph mst = graphAMG.prim();
+            AdjacencyMatrixGraph mst = GraphAlgorithms.prim(graphAMG);
             AdjMatrixGraphVisualization visualization = new AdjMatrixGraphVisualization(mst);
             visualization.displayGraph();
             paneGraphRight.getChildren().clear();
