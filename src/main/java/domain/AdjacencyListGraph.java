@@ -291,6 +291,117 @@ public class AdjacencyListGraph implements Graph {
 
         return distances;
     }
+    public AdjacencyListGraph kruskalMST() throws ListException, GraphException {
+        int n = size();
+        AdjacencyListGraph mst = new AdjacencyListGraph(n);
+
+        // 1. Agregar todos los vértices
+        for (int i = 0; i < n; i++) {
+            mst.addVertex(getVertexByIndex(i).data);
+        }
+
+        // 2. Guardar todas las aristas (sin duplicados)
+        List<Edge> edges = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            Vertex v = getVertexByIndex(i);
+            if (v.edgesList == null || v.edgesList.isEmpty()) continue; // Protección contra vacíos
+            for (int j = 1; j <= v.edgesList.size(); j++) {
+                EdgeWeight ew = (EdgeWeight) v.edgesList.getNode(j).data;
+                int weight = (int) ew.getWeight();
+                // Evita agregar la arista dos veces (no dirigidos)
+                if (!edges.stream().anyMatch(e ->
+                        (e.from.equals(ew.getEdge()) && e.to.equals(v.data)) ||
+                                (e.to.equals(ew.getEdge()) && e.from.equals(v.data)))) {
+                    edges.add(new Edge(v.data, ew.getEdge(), weight));
+                }
+            }
+        }
+        Collections.sort(edges);
+
+        // 3. Estructura para unión y búsqueda (disjoint set)
+        Map<Object, Object> parent = new HashMap<>();
+        for (int i = 0; i < n; i++)
+            parent.put(getVertexByIndex(i).data, getVertexByIndex(i).data);
+
+        // Encuentra representante
+        java.util.function.Function<Object, Object> find = new java.util.function.Function<>() {
+            @Override
+            public Object apply(Object v) {
+                if (!parent.get(v).equals(v))
+                    parent.put(v, this.apply(parent.get(v)));
+                return parent.get(v);
+            }
+        };
+
+        // 4. Construye el MST
+        int edgeCount = 0;
+        for (Edge edge : edges) {
+            Object root1 = find.apply(edge.from);
+            Object root2 = find.apply(edge.to);
+            if (!root1.equals(root2)) {
+                mst.addEdgeWeight(edge.from, edge.to, edge.weight);
+                parent.put(root1, root2);
+                edgeCount++;
+                if (edgeCount == n - 1) break; // Ya tenemos MST
+            }
+        }
+        return mst;
+    }
+
+
+
+    public AdjacencyListGraph primMST() throws ListException, GraphException {
+        int n = size();
+        if (n == 0) return new AdjacencyListGraph(1); // Grafo vacío
+
+        AdjacencyListGraph mst = new AdjacencyListGraph(n);
+        for (int i = 0; i < n; i++) mst.addVertex(getVertexByIndex(i).data);
+
+        // Buscar el primer vértice con al menos una arista
+        int startIdx = -1;
+        for (int i = 0; i < n; i++) {
+            Vertex v = getVertexByIndex(i);
+            if (v.edgesList != null && !v.edgesList.isEmpty()) {
+                startIdx = i;
+                break;
+            }
+        }
+        if (startIdx == -1) return mst; // Todos los vértices están aislados
+
+        boolean[] visited = new boolean[n];
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        Object start = getVertexByIndex(startIdx).data;
+
+        visited[startIdx] = true;
+        Vertex v = getVertexByIndex(startIdx);
+        for (int j = 1; j <= v.edgesList.size(); j++) {
+            EdgeWeight ew = (EdgeWeight) v.edgesList.getNode(j).data;
+            pq.add(new Edge(v.data, ew.getEdge(), (int) ew.getWeight()));
+        }
+
+        int edgeCount = 0;
+        while (!pq.isEmpty() && edgeCount < n - 1) {
+            Edge edge = pq.poll();
+            int toIdx = indexOf(edge.to);
+            if (!visited[toIdx]) {
+                mst.addEdgeWeight(edge.from, edge.to, edge.weight);
+                visited[toIdx] = true;
+                Vertex newV = getVertexByIndex(toIdx);
+                for (int j = 1; j <= newV.edgesList.size(); j++) {
+                    EdgeWeight ew = (EdgeWeight) newV.edgesList.getNode(j).data;
+                    if (!visited[indexOf(ew.getEdge())])
+                        pq.add(new Edge(newV.data, ew.getEdge(), (int) ew.getWeight()));
+                }
+                edgeCount++;
+            }
+        }
+        return mst;
+    }
+
+
+
+
+
 
     public void connectEvenAndOddVertices() throws GraphException, ListException {
         if (isEmpty())

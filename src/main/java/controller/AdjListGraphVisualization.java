@@ -135,8 +135,8 @@ public class AdjListGraphVisualization extends Pane {
         try {
             Object weight = graph.getWeightEdges(a, b);
             Text text = new Text("Edge between: " + a + " - " + b + ". Weight: " + weight);
-            text.setX(30);
-            text.setY(30);
+            text.setX(0);
+            text.setY(527);
             text.setFont(new Font(16));
             text.setFill(Color.BLUE);
             text.setWrappingWidth(500);

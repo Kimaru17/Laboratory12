@@ -9,9 +9,6 @@ public class SinglyLinkedList implements List{
 
     @Override
     public int size() throws ListException {
-        if(isEmpty()){
-            throw new ListException("Singly Linked List is empty");
-        }
         Node aux = first;
         int count=0;
         while(aux!=null){

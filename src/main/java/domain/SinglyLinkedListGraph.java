@@ -286,6 +286,101 @@ public class SinglyLinkedListGraph implements Graph {
 
         return distances;
     }
+    public SinglyLinkedListGraph kruskalMST() throws ListException, GraphException {
+        int n = size();
+        SinglyLinkedListGraph mst = new SinglyLinkedListGraph();
+
+        // 1. Agregar todos los vértices
+        for (int i = 1; i <= n; i++) {
+            mst.addVertex(getVertexByIndex(i).data);
+        }
+
+        // 2. Guardar todas las aristas (sin duplicados)
+        List<Edge> edges = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            Vertex v = getVertexByIndex(i);
+            if (v.edgesList == null || v.edgesList.isEmpty()) continue;
+            for (int j = 1; j <= v.edgesList.size(); j++) {
+                EdgeWeight ew = (EdgeWeight) v.edgesList.getNode(j).data;
+                int weight = (int) ew.getWeight();
+                // Evita duplicados (asumiendo grafo no dirigido)
+                if (!edges.stream().anyMatch(e ->
+                        (e.from.equals(ew.getEdge()) && e.to.equals(v.data)) ||
+                                (e.to.equals(ew.getEdge()) && e.from.equals(v.data)))) {
+                    edges.add(new Edge(v.data, ew.getEdge(), weight));
+                }
+            }
+        }
+        Collections.sort(edges);
+
+        // 3. Disjoint Set para componentes
+        Map<Object, Object> parent = new HashMap<>();
+        for (int i = 1; i <= n; i++)
+            parent.put(getVertexByIndex(i).data, getVertexByIndex(i).data);
+
+        java.util.function.Function<Object, Object> find = new java.util.function.Function<>() {
+            @Override
+            public Object apply(Object v) {
+                if (!parent.get(v).equals(v))
+                    parent.put(v, this.apply(parent.get(v)));
+                return parent.get(v);
+            }
+        };
+
+        // 4. Construye el MST
+        int edgeCount = 0;
+        for (Edge edge : edges) {
+            Object root1 = find.apply(edge.from);
+            Object root2 = find.apply(edge.to);
+            if (!root1.equals(root2)) {
+                mst.addEdgeWeight(edge.from, edge.to, edge.weight);
+                mst.addEdgeWeight(edge.to, edge.from, edge.weight); // MST es no dirigido
+                parent.put(root1, root2);
+                edgeCount++;
+                if (edgeCount == n - 1) break;
+            }
+        }
+        return mst;
+    }
+    public SinglyLinkedListGraph primMST() throws ListException, GraphException {
+        int n = size();
+        if (n == 0) throw new GraphException("El grafo está vacío, no se puede calcular el MST.");
+
+        SinglyLinkedListGraph mst = new SinglyLinkedListGraph();
+        // Asegúrate de agregar los vértices usando el mismo rango que usas en getVertexByIndex
+        for (int i = 1; i <= n; i++) {
+            mst.addVertex(getVertexByIndex(i).data);
+        }
+
+        boolean[] visited = new boolean[n + 1];
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        Object start = getVertexByIndex(1).data;
+
+        visited[1] = true;
+        Vertex v = getVertexByIndex(1);
+        for (int j = 1; j <= v.edgesList.size(); j++) {
+            EdgeWeight ew = (EdgeWeight) v.edgesList.getNode(j).data;
+            pq.add(new Edge(v.data, ew.getEdge(), (int) ew.getWeight()));
+        }
+
+        int edgeCount = 0;
+        while (!pq.isEmpty() && edgeCount < n - 1) {
+            Edge edge = pq.poll();
+            int toIdx = indexOf(edge.to); // indexOf debe ser 1-based
+            if (!visited[toIdx]) {
+                mst.addEdgeWeight(edge.from, edge.to, edge.weight);
+                visited[toIdx] = true;
+                Vertex newV = getVertexByIndex(toIdx);
+                for (int j = 1; j <= newV.edgesList.size(); j++) {
+                    EdgeWeight ew = (EdgeWeight) newV.edgesList.getNode(j).data;
+                    if (!visited[indexOf(ew.getEdge())])
+                        pq.add(new Edge(newV.data, ew.getEdge(), (int) ew.getWeight()));
+                }
+                edgeCount++;
+            }
+        }
+        return mst;
+    }
 
 
     @Override

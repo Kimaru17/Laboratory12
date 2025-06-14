@@ -264,6 +264,91 @@ public class AdjacencyMatrixGraph implements Graph {
 
         return distances;
     }
+    public AdjacencyMatrixGraph kruskalMST() throws GraphException, ListException {
+        int n = size();
+        AdjacencyMatrixGraph mst = new AdjacencyMatrixGraph(n);
+
+        // 1. Agregar todos los vértices
+        for (int i = 0; i < n; i++) {
+            mst.addVertex(getVertexByIndex(i).data);
+        }
+
+        // 2. Guardar todas las aristas (sin duplicados, solo parte superior de la matriz)
+        List<Edge> edges = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) { // Solo una vez cada arista
+                Object weightObj = adjacencyMatrix[i][j];
+                if (weightObj != null && !weightObj.equals(0)) {
+                    int weight = (int) weightObj;
+                    edges.add(new Edge(vertexList[i].data, vertexList[j].data, weight));
+                }
+            }
+        }
+        Collections.sort(edges);
+
+        // 3. Disjoint Set para componentes
+        Map<Object, Object> parent = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            parent.put(getVertexByIndex(i).data, getVertexByIndex(i).data);
+        }
+        java.util.function.Function<Object, Object> find = new java.util.function.Function<>() {
+            @Override
+            public Object apply(Object v) {
+                if (!parent.get(v).equals(v))
+                    parent.put(v, this.apply(parent.get(v)));
+                return parent.get(v);
+            }
+        };
+
+        // 4. Construye el MST
+        int edgeCount = 0;
+        for (Edge edge : edges) {
+            Object root1 = find.apply(edge.from);
+            Object root2 = find.apply(edge.to);
+            if (!root1.equals(root2)) {
+                mst.addEdgeWeight(edge.from, edge.to, edge.weight);
+                mst.addEdgeWeight(edge.to, edge.from, edge.weight); // Porque el MST es no dirigido
+                parent.put(root1, root2);
+                edgeCount++;
+                if (edgeCount == n - 1) break;
+            }
+        }
+        return mst;
+    }
+    public AdjacencyMatrixGraph primMST() throws GraphException, ListException {
+        int n = size();
+        AdjacencyMatrixGraph mst = new AdjacencyMatrixGraph(n);
+        for (int i = 0; i < n; i++) mst.addVertex(getVertexByIndex(i).data);
+
+        boolean[] visited = new boolean[n];
+        int[] minEdge = new int[n];
+        Object[] parent = new Object[n];
+        Arrays.fill(minEdge, Integer.MAX_VALUE);
+        minEdge[0] = 0;
+        parent[0] = null;
+
+        for (int count = 0; count < n - 1; count++) {
+            int u = -1;
+            for (int i = 0; i < n; i++)
+                if (!visited[i] && (u == -1 || minEdge[i] < minEdge[u]))
+                    u = i;
+            visited[u] = true;
+            for (int v = 0; v < n; v++) {
+                if (adjacencyMatrix[u][v] instanceof Integer && (int) adjacencyMatrix[u][v] != 0 && !visited[v] && (int) adjacencyMatrix[u][v] < minEdge[v]) {
+                    minEdge[v] = (int) adjacencyMatrix[u][v];
+                    parent[v] = vertexList[u].data;
+                }
+            }
+        }
+        for (int v = 1; v < n; v++) {
+            if (parent[v] != null) {
+                mst.addEdgeWeight(parent[v], vertexList[v].data, minEdge[v]);
+            }
+        }
+        return mst;
+    }
+
+
 
     @Override
     public String toString() {

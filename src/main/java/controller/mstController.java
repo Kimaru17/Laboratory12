@@ -4,6 +4,7 @@ import domain.*;
 import domain.list.ListException;
 import domain.list.SinglyLinkedList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Pane;
 import util.Utility;
@@ -13,19 +14,19 @@ import java.util.List;
 
 public class mstController {
 
-    @javafx.fxml.FXML
+    @FXML
     private Pane paneGraphLeft;
-    @javafx.fxml.FXML
+    @FXML
     private Pane paneGraphRight;
-    @javafx.fxml.FXML
+    @FXML
     private RadioButton rb_kruskal;
-    @javafx.fxml.FXML
+    @FXML
     private RadioButton rb_prim;
-    @javafx.fxml.FXML
+    @FXML
     private RadioButton rb_linkedList;
-    @javafx.fxml.FXML
+    @FXML
     private RadioButton rb_adjList;
-    @javafx.fxml.FXML
+    @FXML
     private RadioButton rb_adjMatrix;
     private AdjacencyListGraph graphALG;
     private AdjacencyMatrixGraph graphAMG;
@@ -112,7 +113,7 @@ public class mstController {
             }
         }
     }
-    @javafx.fxml.FXML
+    @FXML
     public void randomizeOnAction(ActionEvent actionEvent) throws GraphException, ListException {
         graphAMG = new AdjacencyMatrixGraph(10);
         graphALG = new AdjacencyListGraph(10);
@@ -120,36 +121,44 @@ public class mstController {
         setGraph();
         generateEdges();
         displayGraph();
+        rb_prim.setSelected(false);
+        rb_kruskal.setSelected(false);
+        paneGraphRight.setVisible(false);
     }
 
-    @javafx.fxml.FXML
+    @FXML
     public void adjacencyMatrixOnAction(ActionEvent actionEvent) throws GraphException, ListException {
         if (rb_adjMatrix.isSelected()){
             rb_adjMatrix.setSelected(true);
             rb_adjList.setSelected(false);
             rb_linkedList.setSelected(false);
-
+            rb_prim.setSelected(false);
+            rb_kruskal.setSelected(false);
             initialize();
         }
     }
 
-    @javafx.fxml.FXML
+    @FXML
     public void adjacencyListOnAction(ActionEvent actionEvent) throws GraphException, ListException {
         if (rb_adjList.isSelected()) {
             rb_adjMatrix.setSelected(false);
             rb_adjList.setSelected(true);
             rb_linkedList.setSelected(false);
+            rb_prim.setSelected(false);
+            rb_kruskal.setSelected(false);
 
             initialize();
         }
     }
 
-    @javafx.fxml.FXML
+    @FXML
     public void linkedListOnAction(ActionEvent actionEvent) throws GraphException, ListException {
         if (rb_linkedList.isSelected()){
             rb_adjMatrix.setSelected(false);
             rb_adjList.setSelected(false);
             rb_linkedList.setSelected(true);
+            rb_prim.setSelected(false);
+            rb_kruskal.setSelected(false);
 
             initialize();
         }
@@ -157,13 +166,56 @@ public class mstController {
 
     ////////////////////////////////////////////////////////////
 
-   @javafx.fxml.FXML
+   @FXML
     public void kruskalOnAction(ActionEvent actionEvent) throws GraphException, ListException {
-
+       if (rb_adjList.isSelected()) {
+           AdjacencyListGraph mst = graphALG.kruskalMST();
+           AdjListGraphVisualization vis = new AdjListGraphVisualization(mst);
+           vis.displayGraph();
+           paneGraphRight.getChildren().clear();
+           paneGraphRight.getChildren().add(vis);
+       } else if (rb_adjMatrix.isSelected()) {
+           AdjacencyMatrixGraph mst = graphAMG.kruskalMST();
+           AdjMatrixGraphVisualization vis = new AdjMatrixGraphVisualization(mst);
+           vis.displayGraph();
+           paneGraphRight.getChildren().clear();
+           paneGraphRight.getChildren().add(vis);
+       } else if (rb_linkedList.isSelected()) {
+           SinglyLinkedListGraph mst = graphSLLG.kruskalMST();
+           SinglyLinkedListGraphVisualization vis = new SinglyLinkedListGraphVisualization(mst);
+           vis.displayGraph();
+           paneGraphRight.getChildren().clear();
+           paneGraphRight.getChildren().add(vis);
+       }
+       rb_prim.setSelected(false);
+       rb_kruskal.setSelected(true);
+       paneGraphRight.setVisible(true);
     }
 
-    @javafx.fxml.FXML
+    @FXML
     public void primOnAction(ActionEvent actionEvent) throws GraphException, ListException {
-
+        if (rb_adjList.isSelected()) {
+            AdjacencyListGraph mst = graphALG.primMST();
+            AdjListGraphVisualization vis = new AdjListGraphVisualization(mst);
+            vis.displayGraph();
+            paneGraphRight.getChildren().clear();
+            paneGraphRight.getChildren().add(vis);
+        } else if (rb_adjMatrix.isSelected()) {
+            AdjacencyMatrixGraph mst = graphAMG.primMST();
+            AdjMatrixGraphVisualization vis = new AdjMatrixGraphVisualization(mst);
+            vis.displayGraph();
+            paneGraphRight.getChildren().clear();
+            paneGraphRight.getChildren().add(vis);
+        } else if (rb_linkedList.isSelected()) {
+            SinglyLinkedListGraph mst = graphSLLG.primMST();
+            SinglyLinkedListGraphVisualization vis = new SinglyLinkedListGraphVisualization(mst);
+            vis.displayGraph();
+            paneGraphRight.getChildren().clear();
+            paneGraphRight.getChildren().add(vis);
+        }
+        rb_prim.setSelected(true);
+        rb_kruskal.setSelected(false);
+        paneGraphRight.setVisible(true);
     }
+
 }
