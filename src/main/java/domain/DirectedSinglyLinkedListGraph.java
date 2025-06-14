@@ -42,14 +42,14 @@ public class DirectedSinglyLinkedListGraph implements Graph {
     @Override
     public boolean containsVertex(Object element) throws GraphException, ListException {
         if(isEmpty())
-            throw new GraphException("Singly Linked List Graph is Empty");
+            throw new GraphException("Directed Singly Linked List Graph is Empty");
         return indexOf(element)!=-1;
     }
 
     @Override
     public boolean containsEdge(Object a, Object b) throws GraphException, ListException {
         if(isEmpty())
-            throw new GraphException("Singly Linked List Graph is Empty");
+            throw new GraphException("Directed Singly Linked List Graph is Empty");
         int index = indexOf(a); //buscamos el índice del elemento en la lista enlazada
         if(index ==-1) return false;
         Vertex vertex = (Vertex) vertexList.getNode(index).data;
@@ -103,7 +103,7 @@ public class DirectedSinglyLinkedListGraph implements Graph {
     @Override
     public void removeVertex(Object element) throws GraphException, ListException {
         if(isEmpty())
-            throw new GraphException("Singly Linked List Graph is Empty");
+            throw new GraphException("Directed Singly Linked List Graph is Empty");
         boolean removed = false;
         if(!vertexList.isEmpty() && containsVertex(element)){
             for (int i = 1; !removed&&i <= vertexList.size(); i++) {
@@ -237,7 +237,7 @@ public class DirectedSinglyLinkedListGraph implements Graph {
 
     @Override
     public String toString() {
-        String result = "Singly Linked List Graph Content...";
+        String result = "Directed Singly Linked List Graph Content...";
         try {
             for(int i=1; i<=vertexList.size(); i++){
                 Vertex vertex = (Vertex)vertexList.getNode(i).data;

@@ -44,7 +44,7 @@ public class DirectedAdjacencyListGraph implements Graph {
     @Override
     public boolean containsVertex(Object element) throws GraphException, ListException {
         if (isEmpty())
-            throw new GraphException("Adjacency List Graph is Empty");
+            throw new GraphException("Directed Adjacency List Graph is Empty");
         //opcion-1
        /* for (int i = 0; i < counter; i++) {
             if(util.Utility.compare(vertexList[i].data, element)==0)
@@ -58,7 +58,7 @@ public class DirectedAdjacencyListGraph implements Graph {
     @Override
     public boolean containsEdge(Object a, Object b) throws GraphException, ListException {
         if (isEmpty())
-            throw new GraphException("Adjacency List Graph is Empty");
+            throw new GraphException("Directed Adjacency List Graph is Empty");
         return !vertexList[indexOf(a)].edgesList.isEmpty()
                 && vertexList[indexOf(a)].edgesList.contains(new EdgeWeight(b, null));
     }
@@ -66,7 +66,7 @@ public class DirectedAdjacencyListGraph implements Graph {
     @Override
     public void addVertex(Object element) throws GraphException, ListException {
         if (counter >= vertexList.length)
-            throw new GraphException("Adjacency List Graph is Full");
+            throw new GraphException("Directed Adjacency List Graph is Full");
         vertexList[counter++] = new Vertex(element);
     }
 
@@ -116,7 +116,7 @@ public class DirectedAdjacencyListGraph implements Graph {
     @Override
     public void removeVertex(Object element) throws GraphException, ListException {
         if (isEmpty())
-            throw new GraphException("Adjacency List Graph is Empty");
+            throw new GraphException("Directed Adjacency List Graph is Empty");
         if (containsVertex(element)) {
             for (int i = 0; i < counter; i++) {
                 if (util.Utility.compare(vertexList[i].data, element) == 0) {
@@ -228,7 +228,7 @@ public class DirectedAdjacencyListGraph implements Graph {
 
     @Override
     public String toString() {
-        String result = "Adjacency List Graph Content...";
+        String result = "Directed Adjacency List Graph Content...";
         //se muestran todos los vértices del grafo
         for (int i = 0; i < counter; i++) {
             result+="\nThe vextex in the position: "+i+" is: "+vertexList[i].data;
@@ -241,7 +241,7 @@ public class DirectedAdjacencyListGraph implements Graph {
 
     public void connectEvenAndOddVertices() throws GraphException, ListException {
         if (isEmpty())
-            throw new GraphException("Adjacency List Graph is Empty");
+            throw new GraphException("Directed Adjacency List Graph is Empty");
 
 
         // Conectar todos los pares entre sí

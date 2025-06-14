@@ -56,7 +56,7 @@ public class DirectedAdjacencyMatrixGraph implements Graph {
     @Override
     public boolean containsVertex(Object element) throws GraphException, ListException {
         if(isEmpty())
-            throw new GraphException("Adjacency Matrix Graph is Empty");
+            throw new GraphException("Directed Adjacency Matrix Graph is Empty");
         //opcion-1
        /* for (int i = 0; i < counter; i++) {
             if(util.Utility.compare(vertexList[i].data, element)==0)
@@ -70,14 +70,14 @@ public class DirectedAdjacencyMatrixGraph implements Graph {
     @Override
     public boolean containsEdge(Object a, Object b) throws GraphException, ListException {
         if(isEmpty())
-            throw new GraphException("Adjacency Matrix Graph is Empty");
+            throw new GraphException("Directed Adjacency Matrix Graph is Empty");
         return !(util.Utility.compare(adjacencyMatrix[indexOf(a)][indexOf(b)], 0)==0);
     }
 
     @Override
     public void addVertex(Object element) throws GraphException, ListException {
         if(counter>=vertexList.length)
-            throw new GraphException("Adjacency Matrix Graph is Full");
+            throw new GraphException("Directed Adjacency Matrix Graph is Full");
         vertexList[counter++] = new Vertex(element);
     }
 
@@ -117,7 +117,7 @@ public class DirectedAdjacencyMatrixGraph implements Graph {
     @Override
     public void removeVertex(Object element) throws GraphException, ListException {
         if(isEmpty())
-            throw new GraphException("Adjacency Matrix Graph is Empty");
+            throw new GraphException("Directed Adjacency Matrix Graph is Empty");
         int index = indexOf(element);
         if(index!=-1){ //si existe el indice
             for (int i = index; i < counter-1; i++) {
@@ -223,7 +223,7 @@ public class DirectedAdjacencyMatrixGraph implements Graph {
 
     @Override
     public String toString() {
-        String result = "Adjacency Matrix Graph Content...";
+        String result = "Directed Adjacency Matrix Graph Content...";
         //se muestran todos los vértices del grafo
         for (int i = 0; i < counter; i++) {
             result+="\nThe vextex in the position: "+i+" is: "+vertexList[i].data;
