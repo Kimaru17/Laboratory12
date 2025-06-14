@@ -71,12 +71,12 @@ public class mstController {
 
     private void displayGraph() throws ListException, GraphException {
         if (rb_adjMatrix.isSelected()){
-            GraphVisualization graphVisualization = new GraphVisualization(graphAMG);
+            AdjMatrixGraphVisualization graphVisualization = new AdjMatrixGraphVisualization(graphAMG);
             graphVisualization.displayGraph();
             paneGraphLeft.getChildren().clear();
             paneGraphLeft.getChildren().add(graphVisualization);
         } else if (rb_adjList.isSelected()){
-            LineGraphVisualization graphVisualization = new LineGraphVisualization(graphALG);
+            AdjListGraphVisualization graphVisualization = new AdjListGraphVisualization(graphALG);
             graphVisualization.displayGraph();
             paneGraphLeft.getChildren().clear();
             paneGraphLeft.getChildren().add(graphVisualization);
