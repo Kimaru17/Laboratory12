@@ -65,54 +65,87 @@ public class DirectedSinglyLinkedListGraphVisualization extends Pane {
     private void displayEdges() throws GraphException, ListException {
         for (int i = 1; i <= graph.size(); i++) {
             for (int j = 1; j <= graph.size(); j++) {
-                if (i == j) continue;
                 Object a = graph.getVertexByIndex(i).data;
                 Object b = graph.getVertexByIndex(j).data;
 
-                if (graph.containsEdge(a, b)){
+                if (graph.containsEdge(a, b)) {
                     Circle circleA = (Circle) this.lookup("#vertex-" + i);
                     Circle circleB = (Circle) this.lookup("#vertex-" + j);
-                    Line line = new Line(
-                            circleA.getCenterX(), circleA.getCenterY(),
-                            circleB.getCenterX(), circleB.getCenterY());
 
-                    line.setStrokeWidth(3.5);
-                    line.setCursor(Cursor.HAND);
+                    if (i == j) {
+                        // Dibuja un loop (lazo) sobre el vértice
+                        double loopRadius = 18; // Tamaño del loop
+                        double x = circleA.getCenterX() + 25; // Ajusta la posición del lazo (derecha del nodo)
+                        double y = circleA.getCenterY() - 10;
 
-                    // Selección exclusiva
-                    line.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent mouseEvent) {
-                            if (selectedLine != null && selectedLine != line) {
+                        javafx.scene.shape.Ellipse selfLoop = new javafx.scene.shape.Ellipse(x, y, loopRadius, loopRadius / 2);
+                        selfLoop.setStroke(Color.BLACK);
+                        selfLoop.setFill(Color.TRANSPARENT);
+                        selfLoop.setStrokeWidth(3.5);
+                        selfLoop.setCursor(Cursor.HAND);
+
+                        // Selección exclusiva
+                        selfLoop.setOnMouseClicked(event -> {
+                            if (selectedLine != null) {
                                 selectedLine.setStroke(Color.BLACK);
                             }
                             if (selectedInfoText != null) {
                                 getChildren().remove(selectedInfoText);
                             }
-                            selectedLine = line;
-                            line.setStroke(Color.RED);
+                            selectedLine = null; // No es línea, pero para lógica uniforme
+                            selfLoop.setStroke(Color.RED);
                             selectedInfoText = createEdgeInfoText(a, b);
                             getChildren().add(selectedInfoText);
-                        }
-                    });
-                    line.setOnMouseEntered(mouseEvent -> {
-                        if (selectedLine != line) {
-                            line.setStroke(Color.GREEN);
-                        }
-                    });
-                    line.setOnMouseExited(mouseEvent -> {
-                        if (selectedLine != line) {
-                            line.setStroke(Color.BLACK);
-                        }
-                    });
+                        });
+                        selfLoop.setOnMouseEntered(event -> selfLoop.setStroke(Color.GREEN));
+                        selfLoop.setOnMouseExited(event -> selfLoop.setStroke(Color.BLACK));
 
-                    this.getChildren().add(line);
-                    util.Utility.drawArrow(this, circleA.getCenterX(), circleA.getCenterY(), circleB.getCenterX(), circleB.getCenterY());
-                    line.toBack();
+                        this.getChildren().add(selfLoop);
+                    } else {
+                        Line line = new Line(
+                                circleA.getCenterX(), circleA.getCenterY(),
+                                circleB.getCenterX(), circleB.getCenterY());
+
+                        line.setStrokeWidth(3.5);
+                        line.setCursor(Cursor.HAND);
+
+                        // Selección exclusiva
+                        line.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent mouseEvent) {
+                                if (selectedLine != null && selectedLine != line) {
+                                    selectedLine.setStroke(Color.BLACK);
+                                }
+                                if (selectedInfoText != null) {
+                                    getChildren().remove(selectedInfoText);
+                                }
+                                selectedLine = line;
+                                line.setStroke(Color.RED);
+                                selectedInfoText = createEdgeInfoText(a, b);
+                                getChildren().add(selectedInfoText);
+                            }
+
+                        });
+                        line.setOnMouseEntered(mouseEvent -> {
+                            if (selectedLine != line) {
+                                line.setStroke(Color.GREEN);
+                            }
+                        });
+                        line.setOnMouseExited(mouseEvent -> {
+                            if (selectedLine != line) {
+                                line.setStroke(Color.BLACK);
+                            }
+                        });
+
+                        this.getChildren().add(line);
+                        util.Utility.drawArrow(this, circleA.getCenterX(), circleA.getCenterY(), circleB.getCenterX(), circleB.getCenterY());
+                        line.toBack();
+                    }
                 }
             }
         }
     }
+
 
     private Text createEdgeInfoText(Object a, Object b) {
         try {
