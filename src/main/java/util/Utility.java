@@ -5,6 +5,7 @@ import domain.Graph;
 import domain.GraphException;
 import domain.Vertex;
 import domain.list.ListException;
+import javafx.scene.layout.Pane;
 
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -105,4 +106,36 @@ public class Utility {
 
         return value;
     }
+    public static void drawArrow(Pane pane, double startX, double startY, double endX, double endY) {
+        // Tamaño de la flecha
+        double arrowLength = 18;
+        double arrowWidth = 9;
+
+        // Ángulo de la línea
+        double angle = Math.atan2(endY - startY, endX - startX);
+
+        // Punto base de la flecha (antes del círculo final)
+        double arrowEndX = endX - 20 * Math.cos(angle); // 20 es el radio del nodo
+        double arrowEndY = endY - 20 * Math.sin(angle);
+
+        // Los dos puntos para los lados de la flecha
+        double x1 = arrowEndX - arrowLength * Math.cos(angle - Math.PI / 8);
+        double y1 = arrowEndY - arrowLength * Math.sin(angle - Math.PI / 8);
+
+        double x2 = arrowEndX - arrowLength * Math.cos(angle + Math.PI / 8);
+        double y2 = arrowEndY - arrowLength * Math.sin(angle + Math.PI / 8);
+
+        // Línea principal (puedes omitirla si ya la tienes)
+        // Line line = new Line(startX, startY, arrowEndX, arrowEndY);
+        // pane.getChildren().add(line);
+
+        // Dos líneas de la flecha
+        javafx.scene.shape.Line arrowLine1 = new javafx.scene.shape.Line(arrowEndX, arrowEndY, x1, y1);
+        javafx.scene.shape.Line arrowLine2 = new javafx.scene.shape.Line(arrowEndX, arrowEndY, x2, y2);
+        arrowLine1.setStrokeWidth(2.5);
+        arrowLine2.setStrokeWidth(2.5);
+
+        pane.getChildren().addAll(arrowLine1, arrowLine2);
+    }
+
 }

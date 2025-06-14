@@ -101,98 +101,98 @@ public class GraphAlgoriyhms {
     }
 
     // PRIM para AdjacencyListGraph
-    public static AdjacencyMatrixGraph prim(AdjacencyListGraph graph) throws GraphException, ListException {
-        List<Object> vertices = graph.getVertices();
-        int size = vertices.size();
-        boolean[] visited = new boolean[size];
-        int[] minEdge = new int[size];
-        Object[] parent = new Object[size];
-
-        Arrays.fill(minEdge, Integer.MAX_VALUE);
-        minEdge[0] = 0;
-
-        for (int count = 0; count < size - 1; count++) {
-            int u = getMinVertex(minEdge, visited);
-            visited[u] = true;
-
-            Object from = vertices.get(u);
-            List<Object> adjacents = graph.getAdjacents(from);
-
-            for (int v = 0; v < size; v++) {
-                Object to = vertices.get(v);
-                if (adjacents.contains(to)) {
-                    Object weightObj = graph.getWeightEdges(from, to);
-                    int weight = (weightObj instanceof Integer) ? (int) weightObj : 0;
-
-                    if (!visited[v] && weight != 0 && weight < minEdge[v]) {
-                        parent[v] = from;
-                        minEdge[v] = weight;
-                    }
-                }
-            }
-        }
-
-        AdjacencyMatrixGraph mst = new AdjacencyMatrixGraph(size);
-        for (Object v : vertices) {
-            mst.addVertex(v);
-        }
-
-        for (int i = 1; i < size; i++) {
-            Object to = vertices.get(i);
-            Object from = parent[i];
-            Object weight = graph.getWeightEdges(from, to);
-            mst.addEdgeWeight(from, to, weight);
-        }
-
-        return mst;
-    }
-
-    // PRIM para SinglyLinkedListGraph (similar al anterior)
-    public static AdjacencyMatrixGraph prim(SinglyLinkedListGraph graph) throws GraphException, ListException {
-        List<Object> vertices = graph.getVertices();
-        int size = vertices.size();
-        boolean[] visited = new boolean[size];
-        int[] minEdge = new int[size];
-        Object[] parent = new Object[size];
-
-        Arrays.fill(minEdge, Integer.MAX_VALUE);
-        minEdge[0] = 0;
-
-        for (int count = 0; count < size - 1; count++) {
-            int u = getMinVertex(minEdge, visited);
-            visited[u] = true;
-
-            Object from = vertices.get(u);
-            List<Object> adjacents = graph.getAdjacents(from);
-
-            for (int v = 0; v < size; v++) {
-                Object to = vertices.get(v);
-                if (adjacents.contains(to)) {
-                    Object weightObj = graph.getWeightEdges(from, to);
-                    int weight = (weightObj instanceof Integer) ? (int) weightObj : 0;
-
-                    if (!visited[v] && weight != 0 && weight < minEdge[v]) {
-                        parent[v] = from;
-                        minEdge[v] = weight;
-                    }
-                }
-            }
-        }
-
-        AdjacencyMatrixGraph mst = new AdjacencyMatrixGraph(size);
-        for (Object v : vertices) {
-            mst.addVertex(v);
-        }
-
-        for (int i = 1; i < size; i++) {
-            Object to = vertices.get(i);
-            Object from = parent[i];
-            Object weight = graph.getWeightEdges(from, to);
-            mst.addEdgeWeight(from, to, weight);
-        }
-
-        return mst;
-    }
+//    public static AdjacencyMatrixGraph prim(AdjacencyListGraph graph) throws GraphException, ListException {
+//        List<Object> vertices = graph.getVertices();
+//        int size = vertices.size();
+//        boolean[] visited = new boolean[size];
+//        int[] minEdge = new int[size];
+//        Object[] parent = new Object[size];
+//
+//        Arrays.fill(minEdge, Integer.MAX_VALUE);
+//        minEdge[0] = 0;
+//
+//        for (int count = 0; count < size - 1; count++) {
+//            int u = getMinVertex(minEdge, visited);
+//            visited[u] = true;
+//
+//            Object from = vertices.get(u);
+//            List<Object> adjacents = graph.getAdjacents(from);
+//
+//            for (int v = 0; v < size; v++) {
+//                Object to = vertices.get(v);
+//                if (adjacents.contains(to)) {
+//                    Object weightObj = graph.getWeightEdges(from, to);
+//                    int weight = (weightObj instanceof Integer) ? (int) weightObj : 0;
+//
+//                    if (!visited[v] && weight != 0 && weight < minEdge[v]) {
+//                        parent[v] = from;
+//                        minEdge[v] = weight;
+//                    }
+//                }
+//            }
+//        }
+//
+//        AdjacencyMatrixGraph mst = new AdjacencyMatrixGraph(size);
+//        for (Object v : vertices) {
+//            mst.addVertex(v);
+//        }
+//
+//        for (int i = 1; i < size; i++) {
+//            Object to = vertices.get(i);
+//            Object from = parent[i];
+//            Object weight = graph.getWeightEdges(from, to);
+//            mst.addEdgeWeight(from, to, weight);
+//        }
+//
+//        return mst;
+//    }
+//
+//    // PRIM para SinglyLinkedListGraph (similar al anterior)
+//    public static AdjacencyMatrixGraph prim(SinglyLinkedListGraph graph) throws GraphException, ListException {
+//        List<Object> vertices = graph.getVertices();
+//        int size = vertices.size();
+//        boolean[] visited = new boolean[size];
+//        int[] minEdge = new int[size];
+//        Object[] parent = new Object[size];
+//
+//        Arrays.fill(minEdge, Integer.MAX_VALUE);
+//        minEdge[0] = 0;
+//
+//        for (int count = 0; count < size - 1; count++) {
+//            int u = getMinVertex(minEdge, visited);
+//            visited[u] = true;
+//
+//            Object from = vertices.get(u);
+//            List<Object> adjacents = graph.getAdjacents(from);
+//
+//            for (int v = 0; v < size; v++) {
+//                Object to = vertices.get(v);
+//                if (adjacents.contains(to)) {
+//                    Object weightObj = graph.getWeightEdges(from, to);
+//                    int weight = (weightObj instanceof Integer) ? (int) weightObj : 0;
+//
+//                    if (!visited[v] && weight != 0 && weight < minEdge[v]) {
+//                        parent[v] = from;
+//                        minEdge[v] = weight;
+//                    }
+//                }
+//            }
+//        }
+//
+//        AdjacencyMatrixGraph mst = new AdjacencyMatrixGraph(size);
+//        for (Object v : vertices) {
+//            mst.addVertex(v);
+//        }
+//
+//        for (int i = 1; i < size; i++) {
+//            Object to = vertices.get(i);
+//            Object from = parent[i];
+//            Object weight = graph.getWeightEdges(from, to);
+//            mst.addEdgeWeight(from, to, weight);
+//        }
+//
+//        return mst;
+//    }
 
     // ----------------------- KRUSKAL -----------------------
 

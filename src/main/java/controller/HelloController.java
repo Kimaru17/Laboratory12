@@ -53,4 +53,10 @@ public class HelloController {
     public void DirectedGraphOnAction(ActionEvent actionEvent) {
         loadPage("ViewDirectedGraphSelection.fxml");
     }
+
+    @FXML
+    public void home(ActionEvent actionEvent) {
+        this.messageText.setText("Laboratory No.12");
+        this.bp.setCenter(ap);
+    }
 }

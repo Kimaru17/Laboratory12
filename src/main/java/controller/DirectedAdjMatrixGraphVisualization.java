@@ -127,6 +127,7 @@ public class DirectedAdjMatrixGraphVisualization extends Pane {
                     });
 
                     this.getChildren().add(line);
+                    util.Utility.drawArrow(this, circleA.getCenterX(), circleA.getCenterY(), circleB.getCenterX(), circleB.getCenterY());
                     line.toBack();
                 }
             }
