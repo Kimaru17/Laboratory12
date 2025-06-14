@@ -159,9 +159,47 @@ public class mstController {
 
     @javafx.fxml.FXML
     public void kruskalOnAction(ActionEvent actionEvent) throws GraphException, ListException {
+        if (rb_adjMatrix.isSelected()) {
+            AdjacencyMatrixGraph mst = graphAMG.kruskal();
+            AdjMatrixGraphVisualization visualization = new AdjMatrixGraphVisualization(mst);
+            visualization.displayGraph();
+            paneGraphRight.getChildren().clear();
+            paneGraphRight.getChildren().add(visualization);
+        } else if (rb_adjList.isSelected()) {
+            AdjacencyListGraph mst = graphALG.kruskal();
+            AdjListGraphVisualization visualization = new AdjListGraphVisualization(mst);
+            visualization.displayGraph();
+            paneGraphRight.getChildren().clear();
+            paneGraphRight.getChildren().add(visualization);
+        } else if (rb_linkedList.isSelected()) {
+            SinglyLinkedListGraph mst = graphSLLG.kruskal();
+            SinglyLinkedListGraphVisualization visualization = new SinglyLinkedListGraphVisualization(mst);
+            visualization.displayGraph();
+            paneGraphRight.getChildren().clear();
+            paneGraphRight.getChildren().add(visualization);
+        }
     }
 
     @javafx.fxml.FXML
-    public void primOnAction(ActionEvent actionEvent) {
+    public void primOnAction(ActionEvent actionEvent) throws GraphException, ListException {
+        if (rb_adjMatrix.isSelected()) {
+            AdjacencyMatrixGraph mst = graphAMG.prim();
+            AdjMatrixGraphVisualization visualization = new AdjMatrixGraphVisualization(mst);
+            visualization.displayGraph();
+            paneGraphRight.getChildren().clear();
+            paneGraphRight.getChildren().add(visualization);
+        } else if (rb_adjList.isSelected()) {
+            AdjacencyListGraph mst = graphALG.prim();
+            AdjListGraphVisualization visualization = new AdjListGraphVisualization(mst);
+            visualization.displayGraph();
+            paneGraphRight.getChildren().clear();
+            paneGraphRight.getChildren().add(visualization);
+        } else if (rb_linkedList.isSelected()) {
+            SinglyLinkedListGraph mst = graphSLLG.prim();
+            SinglyLinkedListGraphVisualization visualization = new SinglyLinkedListGraphVisualization(mst);
+            visualization.displayGraph();
+            paneGraphRight.getChildren().clear();
+            paneGraphRight.getChildren().add(visualization);
+        }
     }
 }
