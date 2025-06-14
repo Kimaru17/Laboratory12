@@ -1,6 +1,6 @@
 package controller;
 
-import domain.AdjacencyMatrixGraph;
+import domain.AdjacencyListGraph;
 import domain.GraphException;
 import domain.list.ListException;
 import javafx.event.EventHandler;
@@ -13,23 +13,21 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class GraphVisualization extends Pane {
+public class AdjListGraphVisualization extends Pane {
 
-    private int[][] adjacencyMatrix;
-    private AdjacencyMatrixGraph graph;
+    private AdjacencyListGraph graph;
     private static final double WIDTH = 600;
     private static final double HEIGHT = 300;
 
-    Circle circles[];
-    int visitedEdges = 0;
+    private Circle[] circles;
+    private Line selectedLine = null; // solo una línea puede estar seleccionada
+    private Text selectedInfoText = null; // solo una info de arista visible
 
-
-    public GraphVisualization(AdjacencyMatrixGraph graph) throws ListException {
+    public AdjListGraphVisualization(AdjacencyListGraph graph) throws ListException {
         this.graph = graph;
         this.setWidth(1050);
         this.setHeight(1500);
-        setStatus("Tree is empty");
-        adjacencyMatrix = new int[graph.size()][graph.size()];
+        circles = new Circle[Math.max(graph.size() + 2, 12)];
     }
 
     public void setStatus(String msg){
@@ -38,44 +36,47 @@ public class GraphVisualization extends Pane {
 
     public void displayGraph() throws ListException, GraphException {
         this.getChildren().clear();
+        selectedLine = null;
+        selectedInfoText = null;
         displayVertex();
         displayEdges();
     }
+
     private void displayVertex() throws ListException {
-        // Configurar los parámetros del círculo
         double angleStep = 360.0 / graph.size();
-        double offsetX = WIDTH * 0.5; // Ajuste para centrar más a la derecha
+        double offsetX = WIDTH * 0.5;
         double offsetY = HEIGHT * 1.0;
-        double radius = 200; // hace el círculo más grande
+        double radius = 200;
 
-        circles = new Circle[10];
-
-        // Agregar vértices al grafo y colocarlos en el círculo
-        for (int i = 0; i < 10; i++) {
-            //graph.addVertex(i);
+        for (int i = 1; i <= graph.size(); i++) {
             double angle = Math.toRadians(angleStep * i);
             double x = offsetX + radius * Math.cos(angle);
             double y = offsetY + radius * Math.sin(angle);
-            Circle circle = new Circle(x, y, 20, Color.STEELBLUE); // Hacer el círculo más grande
+            Circle circle = new Circle(x, y, 20, Color.STEELBLUE);
             circles[i] = circle;
-            circle.setId("vertex-" + i); // Set an ID to find this circle later
+            circle.setId("vertex-" + i);
             this.getChildren().add(circle);
 
-            Text text = new Text(graph.getVertexByIndex(i).data + "" );
-            text.setX(x - 7); // Ajustar la posición del número dentro del círculo
-            text.setY(y + 4); // Ajustar la posición del número dentro del círculo
-            text.setFill(Color.WHITE); // Cambiar el color del número a blanco
+            Text text = new Text(graph.getVertexByIndex(i - 1).data + "" );
+            text.setX(x - 7);
+            text.setY(y + 4);
+            text.setFill(Color.BLACK);
+            text.setFont(new Font(14));
+            text.setWrappingWidth(75);
             this.getChildren().add(text);
-
         }
     }
-    private void displayEdges() throws GraphException, ListException {
-        for (int i = 0; i < 10; i++) {
-            for (int j = i + 1; j < 10; j++) {
-                Object a = graph.getVertexByIndex(i).data;
-                Object b = graph.getVertexByIndex(j).data;
 
-                if (graph.containsEdge(a, b)){
+    private void displayEdges() throws GraphException, ListException {
+        for (int i = 1; i <= graph.size(); i++) {
+            for (int j = i + 1; j <= graph.size(); j++) {
+
+                if (i == j) continue;
+
+                Object a = graph.getVertexByIndex(i - 1).data;
+                Object b = graph.getVertexByIndex(j - 1).data;
+
+                if (graph.containsEdge(a, b)) {
                     Circle circleA = (Circle) this.lookup("#vertex-" + i);
                     Circle circleB = (Circle) this.lookup("#vertex-" + j);
                     Line line = new Line(circleA.getCenterX(),
@@ -86,18 +87,29 @@ public class GraphVisualization extends Pane {
                     line.setStrokeWidth(3.5);
                     line.setCursor(Cursor.HAND);
 
+                    // Manejo de eventos exclusivo para selección única:
                     line.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
+                            // Si hay otra línea seleccionada, la des-selecciona
+                            if (selectedLine != null && selectedLine != line) {
+                                selectedLine.setStroke(Color.BLACK);
+                            }
+                            // Si había info, la borra
+                            if (selectedInfoText != null) {
+                                getChildren().remove(selectedInfoText);
+                            }
+                            // Selecciona la nueva línea y muestra info
+                            selectedLine = line;
                             line.setStroke(Color.RED);
-                            showEdge(a, b);
-                            line.setUserData("clicked"); // Marcar la línea como "clickeada"
+                            selectedInfoText = createEdgeInfoText(a, b);
+                            getChildren().add(selectedInfoText);
                         }
                     });
                     line.setOnMouseEntered(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
-                            if (!"clicked".equals(line.getUserData())) { // Solo cambiar color si no está clickeada
+                            if (selectedLine != line) {
                                 line.setStroke(Color.GREEN);
                             }
                         }
@@ -105,42 +117,32 @@ public class GraphVisualization extends Pane {
                     line.setOnMouseExited(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
-                            if (!"clicked".equals(line.getUserData())) { // Solo cambiar color si no está clickeada
+                            if (selectedLine != line) {
                                 line.setStroke(Color.BLACK);
                             }
                         }
                     });
 
                     this.getChildren().add(line);
-
-                    // Asegurarse de que las líneas estén detrás de los círculos
                     line.toBack();
                 }
-
-
             }
         }
     }
 
-    private void showEdge(Object a, Object b){
+    // Crea el texto informativo de la arista seleccionada
+    private Text createEdgeInfoText(Object a, Object b) {
         try {
-            if (graph.containsEdge(a, b)){
-                Object weight = graph.getWeightEdges(a, b);
-                Text text = new Text("Edge between the vertexes: " + a + "... " + b + ". Weight: " + weight);
-                text.setX(30);
-                text.setY(30);
-                text.setFont(new Font(18));
-                text.setFill(Color.RED);
-
-                if (visitedEdges > 0)
-                    //this.getChildren().removeLast();
-                this.getChildren().add(text);
-                visitedEdges++;
-            }
-        } catch (GraphException e) {
-            throw new RuntimeException(e);
-        } catch (ListException e) {
-            throw new RuntimeException(e);
+            Object weight = graph.getWeightEdges(a, b);
+            Text text = new Text("Edge between: " + a + " - " + b + ". Weight: " + weight);
+            text.setX(30);
+            text.setY(30);
+            text.setFont(new Font(16));
+            text.setFill(Color.BLUE);
+            text.setWrappingWidth(500);
+            return text;
+        } catch (Exception e) {
+            return new Text("Error showing edge info.");
         }
     }
 }

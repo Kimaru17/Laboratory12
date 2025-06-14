@@ -107,12 +107,12 @@ public class shortestPathController {
 
     private void displayGraph() throws ListException, GraphException {
         if (rb_adjMatrix.isSelected()){
-            GraphVisualization graphVisualization = new GraphVisualization(graphAMG);
+            AdjMatrixGraphVisualization graphVisualization = new AdjMatrixGraphVisualization(graphAMG);
             graphVisualization.displayGraph();
             paneGraph.getChildren().clear();
             paneGraph.getChildren().add(graphVisualization);
         } else if (rb_adjList.isSelected()){
-            LineGraphVisualization graphVisualization = new LineGraphVisualization(graphALG);
+            AdjListGraphVisualization graphVisualization = new AdjListGraphVisualization(graphALG);
             graphVisualization.displayGraph();
             paneGraph.getChildren().clear();
             paneGraph.getChildren().add(graphVisualization);
