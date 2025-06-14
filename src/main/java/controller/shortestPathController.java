@@ -71,7 +71,14 @@ public class shortestPathController {
                 tableView.getItems().add(new TableData(i, graphALG.getVertexByIndex(i).data, distanceStr));
             }
         } else if (rb_linkedList.isSelected()) {
+            int[] distances = graphSLLG.dijkstra(startVertex);
 
+            tableView.getItems().clear();
+            for (int i = 0; i < distances.length; i++) {
+                String distanceStr = (distances[i] == Integer.MAX_VALUE) ? "N/A" : String.valueOf(distances[i]);
+                Object vertexData = graphSLLG.getVertexByIndex(i + 1).data; // <-- +1 para listas enlazadas
+                tableView.getItems().add(new TableData(i, vertexData, distanceStr));
+            }
         }
     }
 
@@ -133,17 +140,17 @@ public class shortestPathController {
             if (rb_adjMatrix.isSelected()){
                 a = graphAMG.getVertexByIndex(Utility.random(10)-1).data;
                 b = graphAMG.getVertexByIndex(Utility.random(10)-1).data;
-                weight = Utility.random(200) + 800;
+                weight = Utility.random(90) + 10;
                 graphAMG.addEdgeWeight(a, b, weight);
             } else if (rb_adjList.isSelected()){
                 a = graphALG.getVertexByIndex(Utility.random(10)-1).data;
                 b = graphALG.getVertexByIndex(Utility.random(10)-1).data;
-                weight = Utility.random(200) + 800;
+                weight = Utility.random(90) + 10;
                 graphALG.addEdgeWeight(a, b, weight);
             } else if (rb_linkedList.isSelected()){
                 a = graphSLLG.getVertexByIndex(Utility.random(10)).data;
                 b = graphSLLG.getVertexByIndex(Utility.random(10)).data;
-                weight = Utility.random(200) + 800;
+                weight = Utility.random(90) + 10;
                 graphSLLG.addEdgeWeight(a, b, weight);
             }
         }
@@ -158,6 +165,8 @@ public class shortestPathController {
         generateEdges();
         displayGraph();
 
+        initialize();
+        runDijkstra();
     }
 
     @javafx.fxml.FXML

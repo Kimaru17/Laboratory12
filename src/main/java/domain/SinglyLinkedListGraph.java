@@ -7,6 +7,9 @@ import domain.queue.QueueException;
 import domain.stack.LinkedStack;
 import domain.stack.StackException;
 
+import java.util.Arrays;
+import java.util.PriorityQueue;
+
 public class SinglyLinkedListGraph implements Graph {
     private SinglyLinkedList vertexList; //lista enlazada de vértices
 
@@ -236,6 +239,55 @@ public class SinglyLinkedListGraph implements Graph {
 
         return result;
     }
+
+    public int[] dijkstra(int startVertex) throws GraphException, ListException {
+        int n = vertexList.size();
+        if (startVertex < 0 || startVertex >= n) {
+            throw new GraphException("Invalid start vertex");
+        }
+
+        int[] distances = new int[n];
+        Arrays.fill(distances, Integer.MAX_VALUE);
+        distances[startVertex] = 0;
+
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        pq.add(new Node(startVertex, 0));
+
+        boolean[] visited = new boolean[n];
+
+        while (!pq.isEmpty()) {
+            Node node = pq.poll();
+            int currentVertex = node.vertex;
+
+            if (visited[currentVertex]) {
+                continue;
+            }
+
+            visited[currentVertex] = true;
+
+            Vertex vtx = (Vertex) vertexList.getNode(currentVertex + 1).data;
+            SinglyLinkedList edges = vtx.edgesList;
+
+            for (int i = 1; i <= edges.size(); i++) {
+                EdgeWeight edge = (EdgeWeight) edges.getNode(i).data;
+                int neighborIndex = indexOf(edge.getEdge()); // Busca el índice del vértice destino
+                int weight = (int) edge.getWeight();
+
+                if (neighborIndex == -1) continue; // Seguridad extra
+
+                // Ojo: indexOf es 1-based, pero arrays en Java son 0-based
+                neighborIndex = neighborIndex - 1;
+
+                if (!visited[neighborIndex] && distances[currentVertex] + weight < distances[neighborIndex]) {
+                    distances[neighborIndex] = distances[currentVertex] + weight;
+                    pq.add(new Node(neighborIndex, distances[neighborIndex]));
+                }
+            }
+        }
+
+        return distances;
+    }
+
 
     @Override
     public String toString() {
